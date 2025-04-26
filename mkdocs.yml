@@ -1,0 +1,8 @@
+site_name: The Scientist and Engineer's Guide to Digital Signal Processing By Steven W. Smith, Ph.D.
+theme: readthedocs
+
+nav:
+  - Home: index.md
+repo_name: Github
+repo_url: https://github.com/eroicaleo/dsp-guide
+edit_uri: 'blob/main/docs/'
