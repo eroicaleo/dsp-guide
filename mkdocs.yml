@@ -3,6 +3,23 @@ theme: readthedocs
 
 nav:
   - Home: index.md
+  - Chapter 03: ch03notes.md
+  - Understanding DSP Chapter 01: udsp01.md
+  - Understanding DSP Chapter 01 exercises: udsp01ex.md
+extra_javascript: 
+    - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML
+    # - javascripts/config.js
+
+# extra_javascript:
+#   - javascripts/mathjax.js
+#   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+markdown_extensions:
+    - mdx_math:
+        enable_dollar_delimiter: True
+    # - pymdownx.arithmatex:
+    #     generic: true
+
 repo_name: Github
 repo_url: https://github.com/eroicaleo/dsp-guide
 edit_uri: 'blob/main/docs/'
