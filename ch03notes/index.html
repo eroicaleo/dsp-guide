@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Chapter 03 - The Scientist and Engineer's Guide to Digital Signal Processing By Steven W. Smith, Ph.D.</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Chapter 03";
+        var mkdocs_page_input_path = "ch03notes.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> The Scientist and Engineer's Guide to Digital Signal Processing By Steven W. Smith, Ph.D.
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Chapter 03</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#selecting-the-antialias-filter">Selecting The Antialias Filter</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#multirate-data-conversion">Multirate Data Conversion</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#single-bit-data-conversion">Single Bit Data Conversion</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../udsp01/">Understanding DSP Chapter 01</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../udsp01ex/">Understanding DSP Chapter 01 exercises</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">The Scientist and Engineer's Guide to Digital Signal Processing By Steven W. Smith, Ph.D.</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+      <li class="breadcrumb-item active">Chapter 03</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/eroicaleo/dsp-guide/blob/main/docs/ch03notes.md" class="icon icon-github"> Edit on Github</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="chapter-3-adc-and-dac">Chapter 3 ADC and DAC</h1>
+<h2 id="selecting-the-antialias-filter">Selecting The Antialias Filter</h2>
+<ul>
+<li>
+<p>The Chebyshev optimizes the roll-off, the Butterworth optimizes the passband flatness, and the Bessel optimizes the step response.</p>
+</li>
+<li>
+<p>2 common ways for information to be encoded in an analog waveform, only two methods are common:</p>
+<ul>
+<li><strong>time domain encoding</strong><ul>
+<li>time domain encoding uses the shape of the waveform to store information<ul>
+<li>Example: electrocardiogram of EKG, Images.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>frequency domain encoding</strong><ul>
+<li>the information is contained in sinusoidal waves that combine to form the signal<ul>
+<li>Example: Audio / Music</li>
+<li>changes the phase of the various sinusoids, looks 
+  different on scope, but sounds the same</li>
+<li>We need antialias filter with a sharp cutoff, such as 
+  a Chebyshev, Elliptic, or Butterworth.</li>
+<li>Step response is not important.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="multirate-data-conversion">Multirate Data Conversion</h2>
+<ul>
+<li>Digital recorder example:<ul>
+<li>Capture the frequencies between about 100 and 3000 hertz with 
+  40 kHz noise</li>
+</ul>
+</li>
+<li>Analog solution:<ul>
+<li>8-pole low-pass Chebyshev at 3 kHz, then sample at 8 kHz</li>
+<li>the DAC reconstructs the analog signal at 8 kHz with a zeroth 
+  order hold.</li>
+</ul>
+</li>
+<li>Multirate techniques:<ul>
+<li>sample the data at 64 kHz</li>
+<li>remove these unusable frequencies in software, by using a 
+  digital low-pass filter at 3 kHz</li>
+<li>resample the digital signal from 64 kHz to 8 kHz by simply 
+  discarding every seven out of eight samples, a procedure 
+  called decimation.</li>
+<li>8 kHz data converter to 64 kHz with interpolation.</li>
+<li>Everything above 3 kHz is then removed with a digital low-pass 
+  filter.</li>
+<li>a simple RC network is all that is required to produce the 
+  final voice signal.</li>
+</ul>
+</li>
+<li>The advantages for multirate data conversion:<ul>
+<li>mass produced products</li>
+<li>digital filters outperform analog filters by hundreds of times 
+  in key areas.</li>
+</ul>
+</li>
+</ul>
+<h2 id="single-bit-data-conversion">Single Bit Data Conversion</h2>
+<ul>
+<li>Delta modulation<ul>
+<li>Use a comparator, if input voltage is bigger than the voltage
+  on the capacitor, output 1 and feedback to capacitor to increase the voltage</li>
+<li>if input voltage is smaller than the voltage
+  on the capacitor, output 0 and feedback to capacitor to decrease the voltage</li>
+</ul>
+</li>
+<li>Continuously Variable Slope Delta (CVSD) modulator<ul>
+<li>If detected 4 consecutive 0/1 increase the charging/
+  discharging rate.</li>
+<li>At the receiver, the analog signal is reconstructed by 
+  incorporating a syllabic filter that is identical to the one 
+  in the transmission circuit.</li>
+</ul>
+</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../udsp01/" class="btn btn-neutral float-right" title="Understanding DSP Chapter 01">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../udsp01/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
