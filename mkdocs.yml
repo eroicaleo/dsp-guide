@@ -6,6 +6,9 @@ nav:
   - Chapter 03: ch03notes.md
   - Understanding DSP Chapter 01: udsp01.md
   - Understanding DSP Chapter 01 exercises: udsp01ex.md
+  - Understanding DSP Chapter 02: udsp02.md
+  - Understanding DSP Chapter 02 exercises: udsp02ex.md
+
 extra_javascript: 
     - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML
     # - javascripts/config.js
