@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Understanding DSP Chapter 02 exercises - The Scientist and Engineer's Guide to Digital Signal Processing By Steven W. Smith, Ph.D.</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Understanding DSP Chapter 02 exercises";
+        var mkdocs_page_input_path = "udsp02ex.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> The Scientist and Engineer's Guide to Digital Signal Processing By Steven W. Smith, Ph.D.
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ch03notes/">Chapter 03</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../udsp01/">Understanding DSP Chapter 01</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../udsp01ex/">Understanding DSP Chapter 01 exercises</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../udsp02/">Understanding DSP Chapter 02</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Understanding DSP Chapter 02 exercises</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#21">2.1</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#22">2.2</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#23">2.3</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#24">2.4</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#25">2.5</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#26">2.6</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#27">2.7</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#28">2.8</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#29">2.9</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">The Scientist and Engineer's Guide to Digital Signal Processing By Steven W. Smith, Ph.D.</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+      <li class="breadcrumb-item active">Understanding DSP Chapter 02 exercises</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/eroicaleo/dsp-guide/blob/main/docs/udsp02ex.md" class="icon icon-github"> Edit on Github</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="chapter-02-periodic-sampling">Chapter 02 Periodic Sampling</h1>
+<h2 id="21">2.1</h2>
+<p>Suppose you have a mechanical clock that has a minute hand, but no hour
+hand. Next, suppose you took a photograph of the clock when the minute
+hand was pointed at 12:00 noon and then took additional photos every 55
+minutes. Upon showing those photos, in time order, to someone:</p>
+<p>(a) What would that person think about the direction of motion of the
+minute hand as time advances?</p>
+<p><strong>Solution</strong>: He or she will think it is going counter-clock wise</p>
+<p>(b) With the idea of lowpass sampling in mind, how often would you need to
+take photos, measured in photos/hour, so that the successive photos
+show proper (true) clockwise minute-hand rotation?</p>
+<p><strong>Solution</strong>: He or she just needs to take photos &gt; photos/hour. Since we need to
+have <script type="math/tex">f_s > 2 B</script>.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="22">2.2</h2>
+<p>Assume we sampled a continuous <script type="math/tex">x(t)</script> signal and obtained 100 <script type="math/tex">x(n)</script> time-
+domain samples. What important information (parameter that we need to
+know in order to analyze <script type="math/tex">x(t)</script>) is missing from the <script type="math/tex">x(n)</script> sequence?</p>
+<p><strong>Solution</strong>: The frequency of <script type="math/tex">x(t)</script> is missing.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="23">2.3</h2>
+<p>National Instruments Corporation produces an analog-to-digital (A/D) converter
+(Model #NI-5154) that can sample (digitize) an analog signal at a sample rate of fs=2.0 GHz 
+(gigahertz).</p>
+<p>(a) What is the <script type="math/tex">t_s</script> period of the output samples of such a device?</p>
+<p><strong>Solution</strong>: The <script type="math/tex">t_s = 500 \text{ ps}</script>.</p>
+<p>(b) Each A/D output sample is an 8-bit binary word (one byte), and the converter is able to 
+store 256 million samples. What is the maximum time interval over which the converter can continuously sample an analog signal?</p>
+<p><strong>Solution</strong>: It can sample <script type="math/tex">2 \times 10^9</script> samples per second. Then it can only sample for</p>
+<p>
+<script type="math/tex; mode=display"> 
+\frac{256 \cdot 10^6}{2 \times 10^9} = 0.128 \text{ second}
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="24">2.4</h2>
+<p>Consider a continuous time-domain sinewave, whose cyclic frequency is 500 Hz, defined by</p>
+<p>
+<script type="math/tex; mode=display"> 
+x(t) = \cos [2 \pi (500) t + \pi / 7]
+</script>
+</p>
+<p>Write the equation for the discrete <script type="math/tex">x(n)</script> sinewave sequence that results from
+sampling <script type="math/tex">x(t)</script> at an <script type="math/tex">f_s</script> sample rate of 4000 Hz.</p>
+<p><strong>Solution</strong>:</p>
+<p>
+<script type="math/tex">f_o = 500, f_s = 4000</script>, so <script type="math/tex">t_s = 1/4000</script>.</p>
+<p>Then</p>
+<p>
+<script type="math/tex; mode=display"> 
+x(n) = \cos [2 \pi \frac{n}{8} + \pi / 7]
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="25">2.5</h2>
+<p>If we sampled a single continuous sinewave whose frequency is <script type="math/tex">f_o</script> Hz, over
+what range must <script type="math/tex">t_s</script> (the time between digital samples) be to satisfy the
+Nyquist criterion? Express that <script type="math/tex">t_s</script> range in terms of <script type="math/tex">f_o</script>.</p>
+<p><strong>Solution</strong>:</p>
+<p>We need to have <script type="math/tex">f_s \geq 2 f_o</script>, i.e. <script type="math/tex">\frac{1}{t_s} \geq 2 f_o</script>. So</p>
+<p>
+<script type="math/tex; mode=display"> 
+t_s \leq \frac{1}{2 f_o}
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="26">2.6</h2>
+<p>Suppose we used the following statement to describe the Nyquist criterion
+for lowpass sampling: “When sampling a single continuous sinusoid (a single
+analog tone), we must obtain no fewer than <script type="math/tex">N</script> discrete samples per continu-
+ous sinewave cycle.” What is the value of this integer <script type="math/tex">N</script>?</p>
+<p><strong>Solution</strong> <script type="math/tex">N = 2</script>.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="27">2.7</h2>
+<p>The Nyquist criterion, regarding the sampling of lowpass signals, is sometimes stated as “The 
+sampling rate fs must be equal to, or greater than, twice
+the highest spectral component of the continuous signal being sampled.” Can
+you think of how a continuous sinusoidal signal can be sampled in accordance
+with that Nyquist criterion definition to yield all zero-valued discrete
+samples?</p>
+<p><strong>Solution</strong>: Consider</p>
+<p>
+<script type="math/tex; mode=display"> 
+x(t) = \sin 2 \pi \frac{f_s}{2} t
+</script>
+</p>
+<p>Then</p>
+<p>
+<script type="math/tex; mode=display"> 
+x(n) = \sin 2 \pi \frac{f_s}{2} n \frac{1}{f_s}
+= \sin n \pi = 0
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="28">2.8</h2>
+<p>Stock market analysts study time-domain charts (plots) of the closing price of
+stock shares. A typical plot takes the form of that in Figure P2–8, where in-
+stead of plotting discrete closing price sample values as dots, they draw
+straight lines connecting the closing price value samples. What is the <script type="math/tex">t_s</script> period
+for such stock market charts?</p>
+<p><strong>Solution</strong>:</p>
+<p>The <script type="math/tex">t_s</script> is one day, 24 hours.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="29">2.9</h2>
+<p>Consider a continuous time-domain sinewave defined by</p>
+<p>
+<script type="math/tex; mode=display"> 
+x(t) = \cos (4000 \pi t)
+</script>
+</p>
+<p>that was sampled to produce the discrete sinewave sequence defined by</p>
+<p>
+<script type="math/tex; mode=display"> 
+x(n) = \cos (n \pi / 2)
+</script>
+</p>
+<p>What is the <script type="math/tex">f_s</script> sample rate, measured in Hz, that would result in sequence <script type="math/tex">x(n)</script>?</p>
+<p><strong>Solution</strong>:</p>
+<p>
+<script type="math/tex">x(t) = \cos (2 f_o \pi t) = \cos (4000 \pi t)</script>, so <script type="math/tex">f_o = 2000</script> Hz.
+Then</p>
+<p>
+<script type="math/tex; mode=display"> 
+x(n) = \cos 2 \pi f_o n \frac{1}{f_s} = \cos 4000 \pi n \frac{1}{f_s}
+</script>
+</p>
+<p>So</p>
+<p>
+<script type="math/tex; mode=display"> 
+4000 \pi n \frac{1}{f_s} = n \pi / 2 \\
+\Rightarrow 
+f_s = 8000 \text{ Hz}
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../udsp02/" class="btn btn-neutral float-left" title="Understanding DSP Chapter 02"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../udsp02/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

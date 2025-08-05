@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Understanding DSP Chapter 02 - The Scientist and Engineer's Guide to Digital Signal Processing By Steven W. Smith, Ph.D.</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Understanding DSP Chapter 02";
+        var mkdocs_page_input_path = "udsp02.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> The Scientist and Engineer's Guide to Digital Signal Processing By Steven W. Smith, Ph.D.
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ch03notes/">Chapter 03</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../udsp01/">Understanding DSP Chapter 01</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../udsp01ex/">Understanding DSP Chapter 01 exercises</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Understanding DSP Chapter 02</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#21-aliasing-signal-ambiguity-in-the-frequency-domain">2.1 ALIASING: SIGNAL AMBIGUITY IN THE FREQUENCY DOMAIN</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#22-sampling-lowpass-signals">2.2 SAMPLING LOWPASS SIGNALS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#23-sampling-bandpass-signals">2.3 SAMPLING BANDPASS SIGNALS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#24-practical-aspects-of-bandpass-sampling">2.4 PRACTICAL ASPECTS OF BANDPASS SAMPLING</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../udsp02ex/">Understanding DSP Chapter 02 exercises</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">The Scientist and Engineer's Guide to Digital Signal Processing By Steven W. Smith, Ph.D.</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+      <li class="breadcrumb-item active">Understanding DSP Chapter 02</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/eroicaleo/dsp-guide/blob/main/docs/udsp02.md" class="icon icon-github"> Edit on Github</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="chapter-02-periodic-sampling">Chapter 02 Periodic Sampling</h1>
+<ul>
+<li>Our primary concern is just how fast a given continuous signal
+  must be sampled in order to preserve its information content.</li>
+</ul>
+<h2 id="21-aliasing-signal-ambiguity-in-the-frequency-domain">2.1 ALIASING: SIGNAL AMBIGUITY IN THE FREQUENCY DOMAIN</h2>
+<p>If a signal can be defined by</p>
+<p>
+<script type="math/tex; mode=display"> 
+\tag{2-1}
+x(t) = \sin (2 \pi f_o t)
+</script>
+</p>
+<p>and</p>
+<p>
+<script type="math/tex; mode=display"> 
+\tag{2-2}
+x(n) = \sin (2 \pi f_o n t_s)
+</script>
+</p>
+<p>Then we can have</p>
+<p>
+<script type="math/tex; mode=display"> 
+\tag{2-3}
+x(n) = \sin (2 \pi f_o n t_s)
+= \sin (2 \pi f_o n t_s + 2 \pi m)
+= \sin (2 \pi (f_o + \frac{m}{n t_s}) n t_s )
+</script>
+</p>
+<p>So if we consider a sine wave with frequency of <script type="math/tex">f_o + k f_s, k \in \mathbb{Z}</script>, then</p>
+<p>
+<script type="math/tex; mode=display">
+\tag{2-5}
+x'(n) = \sin (2 \pi (f_o + k f_s) t_s) = \sin (2 \pi f_o n t_s + 2 \pi k)
+= \sin (2 \pi f_o n t_s) = x(n)
+</script>
+</p>
+<p>When sampling at a rate of <script type="math/tex">f_s</script> samples/second, if <script type="math/tex">k</script> is any positive or negative
+integer, we cannot distinguish between the sampled values of a sinewave of
+<script type="math/tex">f_o</script> Hz and a sinewave of <script type="math/tex">(f_o + kf_s)</script> Hz.</p>
+<p>The frequency <script type="math/tex">f_s / 2</script> is an important quantity in sampling theory and is referred to by 
+different names in the literature, such as critical Nyquist, half Nyquist, and folding
+frequency.</p>
+<h2 id="22-sampling-lowpass-signals">2.2 SAMPLING LOWPASS SIGNALS</h2>
+<p>If we reduce the <script type="math/tex">f_s = 1.5 B < 2 B</script>, the we see the lower edge and upper edge of the
+spectral replications centered at <script type="math/tex">+f_s</script> and <script type="math/tex">–f_s</script> now lie in our band of interest.
+The spectral information in the bands of <script type="math/tex">–B</script> to <script type="math/tex">–B/2</script> and
+<script type="math/tex">B/2</script> to <script type="math/tex">B</script> Hz has been corrupted.</p>
+<p>The entire spectral content of the original continuous signal is now residing in the band
+of interest between <script type="math/tex">–f_s/2</script> and <script type="math/tex">+f_s/2</script>.
+This key property was true in Figure 2–4(b) and will always be true, regardless of the 
+original signal or the sample rate.</p>
+<p>This problem is solved in practice by using an analog low-pass anti-aliasing filter prior to
+A/D conversion to attenuate any unwanted
+signal energy above <script type="math/tex">+B</script> and below <script type="math/tex">–B</script> Hz as shown in Figure 2–6.</p>
+<h2 id="23-sampling-bandpass-signals">2.3 SAMPLING BANDPASS SIGNALS</h2>
+<p>Use the following figure, we can derive the relation between <script type="math/tex">f_s</script> and <script type="math/tex">f_c</script>.</p>
+<p><img alt="alt text" src="../assets/ch0208.png" /></p>
+<p>From (a) it's</p>
+<p>
+<script type="math/tex; mode=display"> 
+2 f_c - B = m f_s
+</script>
+</p>
+<p>From (b) it's</p>
+<p>
+<script type="math/tex; mode=display"> 
+2 f_c + B = (m + 1) f_s
+</script>
+</p>
+<p>And also <script type="math/tex">f_s \geq 2B</script>, so overall</p>
+<p>
+<script type="math/tex; mode=display"> 
+\frac{2 f_c + B}{m + 1} \leq f_s \leq \frac{2 f_c - B}{m}
+</script>
+</p>
+<p>The figure 2-9 is interesting.</p>
+<p><img alt="alt text" src="../assets/ch0209.png" /></p>
+<h2 id="24-practical-aspects-of-bandpass-sampling">2.4 PRACTICAL ASPECTS OF BANDPASS SAMPLING</h2>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../udsp01ex/" class="btn btn-neutral float-left" title="Understanding DSP Chapter 01 exercises"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../udsp02ex/" class="btn btn-neutral float-right" title="Understanding DSP Chapter 02 exercises">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../udsp01ex/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../udsp02ex/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
