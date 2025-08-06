@@ -80,7 +80,8 @@ $$
 
 And also $f_s \geq 2B$, so overall
 
-$$ 
+$$
+\tag{2-10}
 \frac{2 f_c + B}{m + 1} \leq f_s \leq \frac{2 f_c - B}{m}
 $$
 
@@ -88,5 +89,66 @@ The figure 2-9 is interesting.
 
 ![alt text](./assets/ch0209.png)
 
-
 ## 2.4 PRACTICAL ASPECTS OF BANDPASS SAMPLING
+
+### 2.4.1 Spectral Inversion in Bandpass Sampling
+
+When $m$ is odd number in equation 2-10, the positive-frequency sampled baseband will have
+the inverted shape of the negative half from the original analog spectrum.
+
+The discrete spectrum of any digital signal can be inverted by multiplying the signal’s
+discrete-time samples by a sequence of alternating plus ones and minus ones
+($1, –1, 1, –1$, etc.), indicated in the literature by the succinct expression $(–1)^n$.
+
+We need to remember at this point is the simple rule that multiplication of real signal 
+samples by $(–1)^n$ flips the positive-frequency band of
+interest, from zero to $+f_s/2$ Hz, where the center of the flipping is $f_s/4$ Hz.
+As shown in the figure 2-10.
+
+![alt text](./assets/ch0210.png)
+
+### 2.4.2 Positioning Sampled Spectra at $f_s/4$
+
+In some application, we are required to sample at the $f_s$ such that the
+ampled spectra to be centered exactly at $\pm f_s/4$.
+
+As we’ll see in later chapters, this scenario greatly simplifies certain common operations 
+such as:
+* digital filtering
+* complex down-conversion
+* Hilbert transformations
+
+When $f_c = f_s/4$ already, we do not have to do anything. Otherwise we can use the following
+equation
+
+$$ 
+f_c + \frac{f_s}{4} = k f_s, k = 1, 2, \cdots \\
+\text{ or } \\
+f_c - \frac{f_s}{4} = k f_s, k = 1, 2, \cdots \\
+$$
+
+So overall, we have
+
+$$ 
+f_s = \frac{4 f_c}{2k - 1}, k = 1, 2, \cdots
+$$
+
+### 2.4.3 Noise in Bandpass-Sampled Signals
+
+The spectrum of an analog lowpass signal, output from an analog anti-aliasing lowpass filter
+contains some amount of background noise power.
+
+The bandpass-sampled signal will have an increased level of background noise
+because all of the background spectral noise
+must now reside in the range of $–f_s/2$ to $f_s/2$.
+
+The bandpass-sampled background noise power increases by a factor of m + 1.
+
+The bandpass-sampled signal’s SNR, measured in decibels, is reduced by
+
+$$
+\tag{2-12}
+D_{\text{SNR}} = 10 \cdot \log_{10} (m + 1) \text{dB}
+$$
+
+![alt text](./assets/ch0211.png)
