@@ -80,6 +80,22 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#29">2.9</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#210">2.10</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#211">2.11</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#212">2.12</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#213">2.13</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#214">2.14</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#215">2.15</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#216">2.16</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#217">2.17</a>
+    </li>
     </ul>
                 </li>
               </ul>
@@ -258,6 +274,223 @@ x(n) = \cos 2 \pi f_o n \frac{1}{f_s} = \cos 4000 \pi n \frac{1}{f_s}
 f_s = 8000 \text{ Hz}
 </script>
 </p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="210">2.10</h2>
+<p>Consider the two continuous signals defined by</p>
+<p>
+<script type="math/tex; mode=display"> 
+a(t) = \cos (4000 \pi t) \text{ and } b(t) = \cos (200 \pi t)
+</script>
+</p>
+<p>whose product yields the <script type="math/tex">x(t)</script> signal shown in Figure P2–10.
+What is the minimum <script type="math/tex">f_s</script> sample rate, measured in Hz, that would result in a sequence <script type="math/tex">x(n)</script>
+with no aliasing errors (no spectral replication overlap)?</p>
+<p><strong>Solution</strong>:</p>
+<p>Use the trigonometric identities</p>
+<p>
+<script type="math/tex; mode=display"> 
+\cos (x) \cos (y) = \frac{1}{2} [\cos (x-y) + \cos (x+y)]
+</script>
+</p>
+<p>So</p>
+<p>
+<script type="math/tex; mode=display"> 
+x(t) = a(t) \times b(t) = \frac{1}{2} [ \cos (4200 \pi t) + \cos (3800 \pi t)]
+</script>
+</p>
+<p>So the max frequency component is <script type="math/tex">f_o = 2100</script> Hz.
+Then we need to have <script type="math/tex">f_s \geq 2 \times 2100 = 4200</script> Hz.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="211">2.11</h2>
+<p>Consider a discrete time-domain sinewave sequence defined by</p>
+<p>
+<script type="math/tex; mode=display"> 
+x(n) = \sin (n \pi / 4)
+</script>
+</p>
+<p>that was obtained by sampling an analog <script type="math/tex">x(t) = \sin(2π f_o t)</script> sinewave signal
+whose frequency is <script type="math/tex">f_o</script> Hz.
+If the sample rate of <script type="math/tex">x(n)</script> is <script type="math/tex">fs = 160</script> Hz, what are
+three possible positive frequency values, measured in Hz,
+for <script type="math/tex">f_o</script> that would result in sequence <script type="math/tex">x(n)</script>?</p>
+<p><strong>Solution</strong>:</p>
+<p>
+<script type="math/tex; mode=display"> 
+x(n) = \sin 2 \pi (f_o + k f_s) n \frac{1}{f_s} = \sin (n \pi / 4) \\
+\Rightarrow \\
+8 (f_o + k f_s) = f_s \\
+\Rightarrow \\
+8 (f_o + k f_s) = f_s \\
+\Rightarrow \\
+f_o + k \cdot 160 = 20 \\
+</script>
+</p>
+<p>Let <script type="math/tex">k = 0, -1, -2</script> we can get <script type="math/tex">f_o = 20, 180, 340</script> Hz.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="212">2.12</h2>
+<p>In the text we discussed the notion of spectral folding that can take place when an
+<script type="math/tex">x_a(t)</script> analog signal is sampled to produce a discrete <script type="math/tex">x_d(n)</script> sequence.
+We also stated that all of the analog spectral energy contained in <script type="math/tex">X_a(f)</script> will reside
+within the frequency range of <script type="math/tex">\pm f_s/2</script> of the <script type="math/tex">X_d(f)</script> spectrum of the sampled
+<script type="math/tex">x_d(n)</script> sequence.</p>
+<p>Given those concepts, consider the spectrum of an analog signal shown in Figure
+P2–12(a) whose spectrum is divided into the six segments marked as 1 to 6. Fill
+in the following table showing which of the A-to-F spectral segments of <script type="math/tex">X_d(f)</script>,
+shown in Figure P2–12(b), are aliases of the 1-to-6 spectral segments of <script type="math/tex">X_a(f)</script>.</p>
+<p><strong>Solution</strong>:</p>
+<p>
+<script type="math/tex; mode=display"> 
+A \rightarrow 3 \\
+B \rightarrow 4 \\
+C \rightarrow 5 \\
+D \rightarrow 2 \\
+E \rightarrow 1 \\
+F \rightarrow 6 \\
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="213">2.13</h2>
+<p>Consider the simple analog signal defined by <script type="math/tex">x(t)=\sin (2π700t)</script> shown in Figure P2–13.
+Draw the spectrum of <script type="math/tex">x(n)</script> showing all spectral components, labeling their frequency 
+locations, in the frequency range <script type="math/tex">[-2 f_s, 2 f_s]</script>
+</p>
+<p><strong>Solution</strong>: We have alias for <script type="math/tex">700</script> at <script type="math/tex">[-1300, 300, 700, 1700]</script> and
+alias for <script type="math/tex">-700</script> Hz at <script type="math/tex">[-1700, -700, 300, 1300]</script>.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="214">2.14</h2>
+<p>The Nançay Observatory, in France, uses a radio astronomy receiver that generates a wideband analog <script type="math/tex">s(t)</script> signal whose spectral magnitude is represented
+in Figure P2–14. The Nançay scientists bandpass sample the analog <script type="math/tex">s(t)</script> signal, using an analog-to-digital (A/D) converter to produce an <script type="math/tex">x(n)</script> discrete sequence,
+at a sample rate of <script type="math/tex">f_s = 56</script> MHz.</p>
+<p>(a) Draw the spectrum of the <script type="math/tex">x(n)</script> sequence, <script type="math/tex">X(f)</script>, showing its spectral energy
+over the frequency range –70 MHz to 70 MHz.</p>
+<p><strong>Solution</strong>:</p>
+<p>We have alias for <script type="math/tex">[70-7, 70+7]</script> at <script type="math/tex">[14-7, 14+7], [-42-7,-42+7]</script>.
+We have alias for <script type="math/tex">[-70-7, -70+7]</script> at <script type="math/tex">[-14-7, -14+7], [42-7,42+7]</script>.</p>
+<p>(b) What is the center frequency of the first positive-frequency spectral replication in <script type="math/tex">X(f)</script>?</p>
+<p><strong>Solution</strong>: It's 14 MHz.</p>
+<p>(c) How is your solution to Part (b) related to the <script type="math/tex">f_s</script> sample rate?</p>
+<p><strong>Solution</strong>:</p>
+<p>
+<script type="math/tex">f_s = 56</script> MHz, then it's <script type="math/tex">f_s / 4</script>.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="215">2.15</h2>
+<p>Think about the continuous (analog) signal <script type="math/tex">x(t)</script> that has the spectral magnitude shown in Figure P2–15. What is the minimum <script type="math/tex">f_s</script> sample rate for lowpass
+sampling such that no spectral overlap occurs in the frequency range of 2 to 9
+kHz in the spectrum of the discrete <script type="math/tex">x(n)</script> samples?</p>
+<p><strong>Solution</strong>:</p>
+<p>If <script type="math/tex">f_s = 20</script> kHz, then there will be no overlap at all.
+Since we can tolerate the overlap in the range of 9 to 10, we can reduce <script type="math/tex">f_s</script> further to
+<script type="math/tex">f_s = 19</script> kHz. Then there is overlap for <script type="math/tex">[9,10]</script>, but no overlap between <script type="math/tex">[2,9]</script>.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="216">2.16</h2>
+<p>If a person wants to be classified as a soprano in classical opera, she must be
+able to sing notes in the frequency range of 247 Hz to 1175 Hz. What is the
+minimum <script type="math/tex">f_s</script> sampling rate allowable for bandpass sampling of the full audio
+spectrum of a singing soprano?</p>
+<p><strong>Solution</strong>:</p>
+<p>In this case,</p>
+<p>
+<script type="math/tex; mode=display"> 
+f_c = 711, B = 1175 - 247 = 928
+</script>
+</p>
+<p>So</p>
+<p>
+<script type="math/tex; mode=display"> 
+f_s = \frac{2 f_c+B}{1} = 2350 \text{ Hz} 
+</script>
+</p>
+<h2 id="217">2.17</h2>
+<p>This problem requires the student to have some knowledge of electronics and
+how a mixer operates inside a radio. (The definition of a bandpass filter is
+given in Appendix F.) Consider the simplified version of what is called a su-
+perheterodyne digital radio depicted in Figure P2–17.</p>
+<p>(a) For what local oscillator frequency, <script type="math/tex">f_{\text{LO}}</script>, would an image
+(a copy, or duplication) of the <script type="math/tex">w(t)</script> signal’s spectrum be centered at 15 MHz
+(megahertz) in signal <script type="math/tex">u(t)</script>?</p>
+<p><strong>Solution</strong>: Since the analog bandpass filter #1's Center frequency = 50 MHz
+and bandwidth = 10 MHz, then we can assume </p>
+<p>
+<script type="math/tex; mode=display"> 
+w(t) = \sin (2 \pi 40 t) + \sin (2 \pi 30 t)
+</script>
+</p>
+<p>Then since <script type="math/tex">m(t) = \sin (2 \pi l t)</script>, then</p>
+<p>
+<script type="math/tex; mode=display">
+u(t) = w(t) m(t) =
+\frac{1}{2} [
+\cos (2 \pi t (40 - l)) - \cos (2 \pi t (40 + l))
+]
++
+\frac{1}{2} [
+\cos (2 \pi t (30 - l)) - \cos (2 \pi t (30 + l))
+]
+</script>
+</p>
+<p>So if <script type="math/tex">f_{\text{LO}} = 20</script>, we can have an image of the <script type="math/tex">w(t)</script> signal’s spectrum be centered at 15 MHz in signal <script type="math/tex">u(t)</script>.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<p>(b) What is the purpose of the analog bandpass filter #2?</p>
+<p><strong>Solution</strong>: filter out all the signals beyond <script type="math/tex">[12.5, 17.5]</script> MHz.</p>
+<p>(c) Fill in the following table showing all ranges of acceptable fs bandpass
+sampling rates to avoid aliasing errors in the discrete <script type="math/tex">x(n)</script> sequence. Also
+list, in the rightmost column, for which values of <script type="math/tex">m</script> the sampled spectrum, centered at
+15 MHz, will be inverted.</p>
+<p><strong>Solution</strong>:</p>
+<p>Since <script type="math/tex">f_c = 15, B = 5</script>
+</p>
+<p>
+<script type="math/tex; mode=display">
+\left[ 
+    \frac{2 f_c + B}{m+1},
+    \frac{2 f_c - B}{m}
+ \right] =
+\begin{cases}
+    [17.5, 25.0] &\text{if } m = 1 \text{ inverted }\\
+    [11.7, 12.5] &\text{if } m = 2 \text{ not inverted }\\
+    [8.75, 8.33] &\text{if } m = 3 \text{ invalid!!} \\
+\end{cases}
+</script>
+</p>
+<p>Note here, when <script type="math/tex">m = 3</script>, <script type="math/tex">f_s < 2B</script>, then it's not
+valid.</p>
+<p>(d) In digital receivers, to simplify AM and FM demodulation, it 
+is advantageous to have the spectrum of the discrete <script type="math/tex">x(n)</script> 
+sequence be centered at one-quarter of the sample rate. The text’s 
+Eq. 2–11 describes how to achieve this situation.
+If we were constrained to have <script type="math/tex">f_s</script> equal to 12 MHz, what would
+be the maximum <script type="math/tex">f_{\text{LO}}</script> local oscillator frequency such that the 
+spectra of <script type="math/tex">u(t)</script>, <script type="math/tex">x(t)</script>, and <script type="math/tex">x(n)</script> are centered at <script type="math/tex">f_s/4</script>? 
+(Note: In this scenario, the <script type="math/tex">f_c</script> center frequency of analog 
+bandpass filter #2 will no longer be 15 MHz.)</p>
+<p><strong>Solution</strong>:</p>
+<p>
+<script type="math/tex; mode=display">
+f_s = \frac{4 f_c}{2k - 1} \\
+\Rightarrow \\
+f_c = \frac{2k-1}{4} f_s = 6k - 3 \\
+\Rightarrow \\
+f_c = 3, 9, 15, \cdots
+</script>
+</p>
+<p>The <script type="math/tex">f_c</script> cannot be <script type="math/tex">3</script>, since <script type="math/tex">w(t)</script> then bandwidth is <script type="math/tex">10</script>.
+<script type="math/tex">9</script> is fine. In this case, the <script type="math/tex">f_{\text{LO}} = 26</script> MHz.</p>
 <p>
 <script type="math/tex">\square</script>
 </p>

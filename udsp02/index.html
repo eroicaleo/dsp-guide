@@ -65,6 +65,14 @@
     <li class="toctree-l2"><a class="reference internal" href="#23-sampling-bandpass-signals">2.3 SAMPLING BANDPASS SIGNALS</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#24-practical-aspects-of-bandpass-sampling">2.4 PRACTICAL ASPECTS OF BANDPASS SAMPLING</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#241-spectral-inversion-in-bandpass-sampling">2.4.1 Spectral Inversion in Bandpass Sampling</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#242-positioning-sampled-spectra-at-f_s4">2.4.2 Positioning Sampled Spectra at f_s/4</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#243-noise-in-bandpass-sampled-signals">2.4.3 Noise in Bandpass-Sampled Signals</a>
+    </li>
+        </ul>
     </li>
     </ul>
                 </li>
@@ -169,13 +177,64 @@ signal energy above <script type="math/tex">+B</script> and below <script type="
 </p>
 <p>And also <script type="math/tex">f_s \geq 2B</script>, so overall</p>
 <p>
-<script type="math/tex; mode=display"> 
+<script type="math/tex; mode=display">
+\tag{2-10}
 \frac{2 f_c + B}{m + 1} \leq f_s \leq \frac{2 f_c - B}{m}
 </script>
 </p>
 <p>The figure 2-9 is interesting.</p>
 <p><img alt="alt text" src="../assets/ch0209.png" /></p>
 <h2 id="24-practical-aspects-of-bandpass-sampling">2.4 PRACTICAL ASPECTS OF BANDPASS SAMPLING</h2>
+<h3 id="241-spectral-inversion-in-bandpass-sampling">2.4.1 Spectral Inversion in Bandpass Sampling</h3>
+<p>When <script type="math/tex">m</script> is odd number in equation 2-10, the positive-frequency sampled baseband will have
+the inverted shape of the negative half from the original analog spectrum.</p>
+<p>The discrete spectrum of any digital signal can be inverted by multiplying the signal’s
+discrete-time samples by a sequence of alternating plus ones and minus ones
+(<script type="math/tex">1, –1, 1, –1</script>, etc.), indicated in the literature by the succinct expression <script type="math/tex">(–1)^n</script>.</p>
+<p>We need to remember at this point is the simple rule that multiplication of real signal 
+samples by <script type="math/tex">(–1)^n</script> flips the positive-frequency band of
+interest, from zero to <script type="math/tex">+f_s/2</script> Hz, where the center of the flipping is <script type="math/tex">f_s/4</script> Hz.
+As shown in the figure 2-10.</p>
+<p><img alt="alt text" src="../assets/ch0210.png" /></p>
+<h3 id="242-positioning-sampled-spectra-at-f_s4">2.4.2 Positioning Sampled Spectra at <script type="math/tex">f_s/4</script>
+</h3>
+<p>In some application, we are required to sample at the <script type="math/tex">f_s</script> such that the
+ampled spectra to be centered exactly at <script type="math/tex">\pm f_s/4</script>.</p>
+<p>As we’ll see in later chapters, this scenario greatly simplifies certain common operations 
+such as:
+* digital filtering
+* complex down-conversion
+* Hilbert transformations</p>
+<p>When <script type="math/tex">f_c = f_s/4</script> already, we do not have to do anything. Otherwise we can use the following
+equation</p>
+<p>
+<script type="math/tex; mode=display"> 
+f_c + \frac{f_s}{4} = k f_s, k = 1, 2, \cdots \\
+\text{ or } \\
+f_c - \frac{f_s}{4} = k f_s, k = 1, 2, \cdots \\
+</script>
+</p>
+<p>So overall, we have</p>
+<p>
+<script type="math/tex; mode=display"> 
+f_s = \frac{4 f_c}{2k - 1}, k = 1, 2, \cdots
+</script>
+</p>
+<h3 id="243-noise-in-bandpass-sampled-signals">2.4.3 Noise in Bandpass-Sampled Signals</h3>
+<p>The spectrum of an analog lowpass signal, output from an analog anti-aliasing lowpass filter
+contains some amount of background noise power.</p>
+<p>The bandpass-sampled signal will have an increased level of background noise
+because all of the background spectral noise
+must now reside in the range of <script type="math/tex">–f_s/2</script> to <script type="math/tex">f_s/2</script>.</p>
+<p>The bandpass-sampled background noise power increases by a factor of m + 1.</p>
+<p>The bandpass-sampled signal’s SNR, measured in decibels, is reduced by</p>
+<p>
+<script type="math/tex; mode=display">
+\tag{2-12}
+D_{\text{SNR}} = 10 \cdot \log_{10} (m + 1) \text{dB}
+</script>
+</p>
+<p><img alt="alt text" src="../assets/ch0211.png" /></p>
               
             </div>
           </div><footer>
