@@ -421,3 +421,150 @@ The $f_c$ cannot be $3$, since $w(t)$ then bandwidth is $10$.
 $9$ is fine. In this case, the $f_{\text{LO}} = 26$ MHz.
 
 $\square$
+
+## 2.18
+
+Think about the analog anti-aliasing filter given in Figure 
+P2–18(a), having a one-sided bandwidth of $B$ Hz. A wideband 
+analog signal passed through that filter, and then sampled, 
+would have an $|X(m)|$ spectrum as shown in Figure
+P2–18(b), where the dashed curves represent spectral 
+replications.
+
+Suppose we desired that all aliased spectral components in
+$|X(m)|$ over our $B$ Hz bandwidth of interest must be 
+attenuated by at least $60$ dB. Determine the equation, in 
+terms of $B$ and the $f_s$ sampling rate, for the frequency 
+at which the anti-aliasing filter must have an attenuation 
+value of –60 dB. The solution to this problem gives us a 
+useful rule of thumb we can use in specifying the desired 
+performance of analog anti-aliasing filters.
+
+**Solution**: let the width of small area be $c$,
+then we have $2B + c = f_s$, so
+
+$$ 
+B+c = f_s - B
+$$
+
+So the anti-aliasing filter needs to have an attenuation 
+value of –60 dB at $f_s - B$ Hz.
+
+$\square$
+
+## 2.19
+
+This problem demonstrates a popular way of performing 
+frequency down-conversion (converting a bandpass signal into 
+a lowpass signal) by way of bandpass sampling. Consider the 
+continuous 250-Hz-wide bandpass $x(t)$ signal whose spectral 
+magnitude is shown in Figure P2–19. Draw the spectrum,
+over the frequency range of –1.3$f_s$ to +1.3$f_s$, of the
+$x(n)$ sampled sequence obtained when $x(t)$ is sampled at 
+$f_s=1000$ samples/second.
+
+**Solution**:
+
+The results is exactly like the following 2-9 (c).
+
+## 2.20
+
+Here’s a problem to test your understanding of bandpass 
+sampling. Think about the continuous (analog) signal $x(t)$ 
+that has the spectral magnitude shown in Figure P2–20.
+
+(a) What is the minimum $f_c$ center frequency, in terms of
+$x(t)$’s bandwidth $B$, that enables bandpass sampling of $x(t)$? Show your work.
+
+**Solution**: To be able to do the bandpass sampling,
+use the figure 2-9 (a) (b) you need at least to have
+
+$$ 
+f_c = B + B/2 = \frac{3}{2}B
+$$
+
+$\square$
+
+(b) Given your results in Part (a) above, determine if it is 
+possible to perform bandpass sampling of the full spectrum 
+of the commercial AM (amplitude modulation) broadcast radio band in North America. Explain your solution.
+
+**Solution**:
+
+According to the wiki, the commercial AM broadcast radio band in North America occupies the frequency range 535 to 1705 kHz.
+
+Then $B = 1170, B/2 = 585, f_c = 1120$, so
+$f_c < \frac{3}{2}B$.
+
+It is not possible.
+
+$\square$
+
+## 2.21
+
+Suppose we want to perform bandpass sampling of a continuous 5 
+kHz-wide bandpass signal whose spectral magnitude is shown in Figure P2–21.
+
+Fill in the following table showing the various ranges of 
+acceptable $f_s$ band-pass sampling rates, similar to the text’s 
+Table 2–1, to avoid aliasing errors. Also list, in the rightmost 
+column, for which values of m the sampled spectrum in the vicinity 
+of zero Hz is inverted.
+
+**Solution**:
+
+$f_c = 25, B = 5$ 
+$$
+\left[ 
+    \frac{2 f_c + B}{m+1},
+    \frac{2 f_c - B}{m}
+ \right] =
+\begin{cases}
+    [27.5, 45.0] &\text{if } m = 1 \text{ inverted }\\
+    [18.3, 22.5] &\text{if } m = 2 \text{ not inverted }\\
+    [13.75, 15.0] &\text{if } m = 3 \text{ inverted } \\
+    [11, 11.25] &\text{if } m = 4 \text{ not inverted } \\
+    [9.17, 9] &\text{if } m = 5 \text{ invalid!! } \\
+\end{cases}
+$$
+
+$\square$
+
+## 2.22
+
+I recently encountered an Internet website that allegedly gave an 
+algorithm for the minimum fs bandpass sampling rate for an analog 
+bandpass signal centered at $f_c$ Hz, whose bandwidth is $B$ Hz. The algorithm is
+
+$$ 
+f_{s, \min } =
+\frac{4 f_c}{2Z - 1}
+$$
+
+where
+
+$$ 
+Z = \left\lfloor 
+\frac{4 f_c + 2B}{4B}
+\right\rfloor 
+$$
+
+Here’s the problem: Is the above $f_{s,\min}$ algorithm correct in 
+computing the absolute minimum possible
+nonaliasing $f_s$ bandpass sampling rate for an analog bandpass 
+signal centered at $f_c$ Hz, whose bandwidth is $B$ Hz? Verify 
+your answer with an example.
+
+**Solution**:
+
+In ex 2.21, $f_c = 25, B = 5, Z = 5$,
+then
+
+$$ 
+f_{s, \min } =
+\frac{100}{9} = 11.11 > 11
+$$
+
+So this algorithm is not correct.
+
+$\square$
