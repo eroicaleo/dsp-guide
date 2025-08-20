@@ -10,6 +10,7 @@ nav:
   - Understanding DSP Chapter 02 exercises: udsp02ex.md
   - Understanding DSP Chapter 03: udsp03.md
   - Understanding DSP Chapter 03 exercises: udsp03ex.md
+  - Unresolved: unresolved.md
 
 extra_javascript: 
     - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML

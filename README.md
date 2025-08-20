@@ -6,3 +6,4 @@ This is my notes for the 2 books:
 2. "The Scientist and Engineer's Guide to Digital Signal Processing"
 By Steven W. Smith, Ph.D. . Book link [here](https://www.dspguide.com/pdfbook.htm)
 
+The Github pages can be found [here](https://eroicaleo.github.io/dsp-guide/).
