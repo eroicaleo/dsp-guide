@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Understanding DSP Chapter 03 - The Scientist and Engineer's Guide to Digital Signal Processing By Steven W. Smith, Ph.D.</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Understanding DSP Chapter 03";
+        var mkdocs_page_input_path = "udsp03.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> The Scientist and Engineer's Guide to Digital Signal Processing By Steven W. Smith, Ph.D.
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ch03notes/">Chapter 03</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../udsp01/">Understanding DSP Chapter 01</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../udsp01ex/">Understanding DSP Chapter 01 exercises</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../udsp02/">Understanding DSP Chapter 02</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../udsp02ex/">Understanding DSP Chapter 02 exercises</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Understanding DSP Chapter 03</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#31-understanding-the-dft-equation">3.1 UNDERSTANDING THE DFT EQUATION</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#the-magnitude">The magnitude</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#311-dft-example-1">3.1.1 DFT Example 1</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#32-dft-symmetry">3.2 DFT SYMMETRY</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#33-dft-linearity">3.3 DFT LINEARITY</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#34-dft-magnitudes">3.4 DFT MAGNITUDES</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#35-dft-frequency-axis">3.5 DFT FREQUENCY AXIS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#36-dft-shifting-theorem">3.6 DFT SHIFTING THEOREM</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#361-dft-example-2">3.6.1 DFT Example 2</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#37-inverse-dft">3.7 INVERSE DFT</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../udsp03ex/">Understanding DSP Chapter 03 exercises</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">The Scientist and Engineer's Guide to Digital Signal Processing By Steven W. Smith, Ph.D.</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+      <li class="breadcrumb-item active">Understanding DSP Chapter 03</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/eroicaleo/dsp-guide/blob/main/docs/udsp03.md" class="icon icon-github"> Edit on Github</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="chapter-03-the-discrete-fourier-transform">Chapter 03 The Discrete Fourier Transform</h1>
+<ul>
+<li>The discrete Fourier transform (DFT) is one of the two most common, and 
+  powerful, procedures encountered in the field of digital signal processing.
+  (Digital filtering is the other.)</li>
+</ul>
+<p>Continuous Fourier Transform</p>
+<p>
+<script type="math/tex; mode=display"> 
+\tag{3-1}
+X(f) =\int_{-\infty }^{+\infty}
+x(t) e^{-j2πft} dt
+</script>
+</p>
+<blockquote>
+<p>A prominent quote from Lord Kelvin better states this sentiment: 
+“Fourier’s theorem is not only one of the most beautiful results 
+of modern analysis, but it may be said to furnish an 
+indispensable instrument in the treatment of nearly every 
+recondite question in modern physics.</p>
+</blockquote>
+<p>DFT equation (exponential form):</p>
+<p>
+<script type="math/tex; mode=display">
+\tag{3-2}
+X(m) = \sum_{n = 0}^{N-1} x(n) e^{-j2πnm/N}
+</script>
+</p>
+<h2 id="31-understanding-the-dft-equation">3.1 UNDERSTANDING THE DFT EQUATION</h2>
+<p>DFT equation (rectangular form):</p>
+<p>
+<script type="math/tex; mode=display">
+\tag{3-3}
+X(m) = \sum_{n = 0}^{N-1} x(n) [\cos (2πnm/N) -j \sin (2πnm/N)]
+</script>
+</p>
+<ul>
+<li>
+<script type="math/tex">X(m) =</script> the <script type="math/tex">m</script>th DFT output component<ul>
+<li>
+<script type="math/tex">m =</script> the index of the DFT output in the frequency domain.</li>
+<li>
+<script type="math/tex">m = 0, 1, 2, 3, . . ., N–1</script>.</li>
+</ul>
+</li>
+<li>
+<script type="math/tex">x(n) =</script> the sequence of input samples<ul>
+<li>
+<script type="math/tex">n =</script> the time-domain index of the input samples.</li>
+<li>
+<script type="math/tex">n = 0, 1, 2, 3, . . ., N–1</script>.</li>
+</ul>
+</li>
+<li>
+<p>
+<script type="math/tex">N =</script> the number of samples of the input sequence and the number 
+  of frequency points in the DFT output.</p>
+<ul>
+<li>The value <script type="math/tex">N</script> is an important parameter because it determines 
+  how many input samples are needed, the resolution of the 
+  frequency-domain results, and the amount of processing time
+  necessary to calculate an <script type="math/tex">N</script>-point DFT.</li>
+</ul>
+</li>
+<li>
+<p>The exact frequencies of the different sinusoids depend on both 
+  the sampling rate <script type="math/tex">f_s</script> at which the original signal was sampled, and the number of samples <script type="math/tex">N</script>.</p>
+</li>
+<li>For example, if we are sampling a continuous signal at a rate of 
+  500 samples/second and, then, perform a <script type="math/tex">16</script>-point DFT on the 
+  sampled data, the fundamental frequency of the sinusoids is
+  <script type="math/tex">f_s/N = 500/16</script> or <script type="math/tex">31.25</script> Hz.</li>
+</ul>
+<p>The <script type="math/tex">N</script> separate DFT analysis frequencies are</p>
+<p>
+<script type="math/tex; mode=display">
+\tag{3-5}
+f_{\text{analysis}}(m) = \frac{m f_s}{N}.
+</script>
+</p>
+<h3 id="the-magnitude">The magnitude</h3>
+<p>
+<script type="math/tex; mode=display"> 
+\tag{3-6}
+X(m) = X_\text{real} + j X_{\text{imag}}
+</script>
+</p>
+<p>Then the magnitude of <script type="math/tex">X(m)</script> is</p>
+<p>
+<script type="math/tex; mode=display"> 
+\tag{3-7}
+X_{\text{mag}} = |X(m)| = \sqrt[]{X_{\text{real}}(m)^2 + X_{\text{imag}}(m)^2}
+</script>
+</p>
+<h3 id="311-dft-example-1">3.1.1 DFT Example 1</h3>
+<p>Consider performing an 8-point DFT on a continuous input signal containing
+components at 1 kHz and 2 kHz a input signal:</p>
+<p>
+<script type="math/tex; mode=display"> 
+x_{in}(t) = \sin(2π⋅1000⋅t) + 0.5\sin(2π⋅2000⋅t+3π/4)
+</script>
+</p>
+<p>And we use <script type="math/tex">f_s = 8000</script> samples/second.</p>
+<p>Then</p>
+<p>
+<script type="math/tex; mode=display"> 
+x(n) = \sin(2π⋅1000⋅n⋅t_s) + 0.5\sin(2π⋅2000⋅n⋅t_s+3π/4),
+\quad
+t_s = \frac{1}{8000}
+</script>
+</p>
+<p>our eight <script type="math/tex">x(n)</script> samples are:</p>
+<pre><code class="language-python">from scipy.fft import fft, fftfreq
+import numpy as np
+
+fs = 8000  # Sampling rate in Hz
+n = np.arange(0, 8, 1)  # Time vector
+ts = 1.0 / fs
+# Signal with 1000 Hz and 2000 Hz components
+x = 1.0*np.sin(2*np.pi*1000*n*ts) + 0.5*np.sin(2*np.pi*2000*n*ts + (3/4)*np.pi)
+
+x
+array([ 0.35355339,  0.35355339,  0.64644661,  1.06066017,
+0.35355339, -1.06066017, -1.35355339, -0.35355339])
+</code></pre>
+<p>We can either use <code>scipy.fft</code> or manual:</p>
+<pre><code class="language-python">X = fft(x)
+np.around(X,4)
+
+array([ 0.    -0.j    , -0.    -4.j    ,  1.4142+1.4142j,
+0.    +0.j    ,-0.    -0.j    ,  0.    -0.j    ,  1.4142-1.4142j, -0.    +4.j    ])
+
+N = 8
+Y = np.array([0+0*1j]*N)
+for m in range(N):
+    Y[m] = 0 + 0*1j
+    for n in range(N):
+        Y[m] = Y[m] + x[n] * (np.cos(-2*np.pi*n*m/N) + 1j*np.sin(-2*np.pi*n*m/N))
+
+np.around(Y,4)
+
+array([ 0.    +0.j    , -0.    -4.j    ,  1.4142+1.4142j,
+0.    -0.j    , -0.    -0.j    ,  0.    +0.j    ,  1.4142-1.4142j, -0.    +4.j    ])
+
+np.allclose(X, Y)
+
+True
+</code></pre>
+<p><img alt="" src="../assets/ch0304.png" /></p>
+<p>We have the following observations from this figure:</p>
+<ul>
+<li>
+<p>By looking at the <script type="math/tex">|X(m)|</script>, we can see, <script type="math/tex">|X(0)| = 0</script>, that means
+<script type="math/tex">x(n)</script> has no DC component.</p>
+</li>
+<li>
+<p>Looking at Figure 3–4(b), we might notice that the phase of
+  <script type="math/tex">X(1)</script> is <script type="math/tex">–90</script> degrees. It compares against a <script type="math/tex">\cos</script> wave at
+  frequency <script type="math/tex">\frac{m f_s}{N}</script>.</p>
+<ul>
+<li>At the frequency <script type="math/tex">1 f_s / N = 8000 / 8 = 1000</script>, the phase is
+  <script type="math/tex">-90</script>, which corresponds to <script type="math/tex">\sin(2π⋅1000⋅t)</script>. This is
+  correct, because <script type="math/tex">\cos (2π⋅1000⋅t - 90) = \sin (2π⋅1000⋅t)</script>.</li>
+<li>At the frequency <script type="math/tex">2 f_s / N = 8000 / 8 = 2000</script>, the phase is
+  <script type="math/tex">+45</script>, which corresponds to <script type="math/tex">\sin(2π⋅2000⋅t + 3/4 \pi)</script>. 
+  This is correct, because <script type="math/tex">\cos \theta = \sin (\theta + \pi / 2)</script>, so <script type="math/tex">\cos (2π⋅1000⋅t + 45) = \sin 
+  (2π⋅1000⋅t + 45 + 90)</script>.</li>
+</ul>
+</li>
+<li>
+<p>2 open questions:</p>
+<ul>
+<li>What are the components when <script type="math/tex">m = 6, 7</script>.</li>
+<li>Why the max magnitude is <script type="math/tex">4</script> instead of <script type="math/tex">1</script>.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>2 very important characteristics of the DFT that we should never forget.
+* any individual <script type="math/tex">X(m)</script> output value is nothing more than the sum 
+  of the term-by-term products, a correlation, of an input signal 
+  sample sequence with a cosine and a sinewave whose frequencies 
+  are <script type="math/tex">m</script> complete cycles in the total sample interval of <script type="math/tex">N</script> 
+  samples. This is true no matter what the <script type="math/tex">f_s</script> sample rate is 
+  and no matter how large <script type="math/tex">N</script> is in an <script type="math/tex">N</script>-point DFT.
+* The second important characteristic of the DFT of real input 
+  samples is the symmetry of the DFT output terms.</p>
+</blockquote>
+<h3 id="32-dft-symmetry">3.2 DFT SYMMETRY</h3>
+<p>Consider <script type="math/tex">x(n)</script> is a real signal. Using equation (3-2), we have</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{split}
+X(N-m)
+&= \sum_{n = 0}^{N-1} x(n) e^{-j2πn(N-m)/N} \\
+&= \sum_{n = 0}^{N-1} x(n) e^{-j2πn} e^{j2πnm/N} \\
+&= \sum_{n = 0}^{N-1} x(n) e^{j2πnm/N} \\
+&= \left(\sum_{n = 0}^{N-1} x(n) e^{-j2πnm/N}\right)^*  \\
+&= (X(m))^* \\
+\end{split}
+</script>
+</p>
+<ul>
+<li>If that real input function is even, then <script type="math/tex">X(m)</script> is
+  always real and even.</li>
+<li>If the real input function is odd, then <script type="math/tex">X(m)</script> is always
+  pure imaginary.</li>
+</ul>
+<h3 id="33-dft-linearity">3.3 DFT LINEARITY</h3>
+<p>
+<script type="math/tex; mode=display">
+\begin{split}
+X_1(m) + X_2(m)
+&= \sum_{n = 0}^{N-1} x_1(n) e^{-j2πnm/N}
++ \sum_{n = 0}^{N-1} x_2(n) e^{-j2πnm/N} \\
+&= \sum_{n = 0}^{N-1} (x_1(n) + x_2(n)) e^{-j2πnm/N} \\
+&= X_{\text{sum}}(m)
+\end{split}
+</script>
+</p>
+<h2 id="34-dft-magnitudes">3.4 DFT MAGNITUDES</h2>
+<ul>
+<li>When a real input signal contains a sinewave component,
+  whose frequency is less than half the <script type="math/tex">f_s</script> sample rate, of peak 
+  amplitude <script type="math/tex">A_o</script> with an integral number of cycles over <script type="math/tex">N</script> input samples, the output magnitude of the DFT for that particular sinewave is <script type="math/tex">M_r</script> where</li>
+</ul>
+<p>
+<script type="math/tex; mode=display">
+\tag{3-17}
+M_r = \frac{A_o N}{2}
+</script>
+</p>
+<ul>
+<li>If the DFT input is a complex sinusoid of magnitude Ao (i.e., 
+  <script type="math/tex">A_o e^{j2πfnt_s}</script>) with an integer number of cycles over <script type="math/tex">N</script>
+  samples, the <script type="math/tex">M_c</script> output magnitude of the DFT for that 
+  particular sinewave is</li>
+</ul>
+<p>
+<script type="math/tex; mode=display"> 
+\tag{3-17'}
+M_c = A_o N
+</script>
+</p>
+<p>The other 2 forms of DFT</p>
+<p>
+<script type="math/tex; mode=display">
+\tag{3-18}
+X'(m) = \frac{1}{N} \sum_{n = 0}^{N-1} x(n) e^{-j2πnm/N}
+</script>
+</p>
+<p>Or</p>
+<p>
+<script type="math/tex; mode=display">
+\tag{3-18'}
+X'(m) = \frac{1}{\sqrt[]{N}} \sum_{n = 0}^{N-1} x(n) e^{-j2πnm/N} \\
+x'(n) = \frac{1}{\sqrt[]{N}} \sum_{m = 0}^{N-1} X(m) e^{j2πnm/N} \\
+</script>
+</p>
+<h2 id="35-dft-frequency-axis">3.5 DFT FREQUENCY AXIS</h2>
+<ul>
+<li>Just remember that the DFT’s frequency spacing (resolution) is 
+  <script type="math/tex">f_s/N</script>.</li>
+</ul>
+<blockquote>
+<ul>
+<li>Each DFT output term is the sum of the term-by-term products of an
+input time-domain sequence with sequences representing a sine and a
+cosine wave.</li>
+<li>For real inputs, an <script type="math/tex">N</script>-point DFT’s output provides only <script type="math/tex">N/2+1</script> independent terms.</li>
+<li>The DFT is a linear operation.</li>
+<li>The magnitude of the DFT results is directly proportional to <script type="math/tex">N</script>.</li>
+<li>The DFT’s frequency resolution is <script type="math/tex">f_s/N</script>.</li>
+</ul>
+</blockquote>
+<h2 id="36-dft-shifting-theorem">3.6 DFT SHIFTING THEOREM</h2>
+<p>Consider <script type="math/tex">x'(n) = x(n+k), x(n) = x(n+N), 0 \leq k < N</script> and</p>
+<p>
+<script type="math/tex; mode=display">
+\tag{3-19}
+\begin{split}
+X'(m) 
+&= \sum_{n = 0}^{N-1} x'(n) e^{-j2πnm/N} \\
+&= \sum_{n = 0}^{N-1} x(n+k) e^{-j2πnm/N} \\
+&= e^{j2πkm/N} \sum_{n = 0}^{N-1} x(n+k) e^{-j2π(n+k)m/N} \\
+&= e^{j2πkm/N} \sum_{l = k}^{N-1+k} x(l) e^{-j2πlm/N} \\
+&= e^{j2πkm/N} \sum_{l = 0}^{N-1} x(l) e^{-j2πlm/N} \\
+\end{split}
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h3 id="361-dft-example-2">3.6.1 DFT Example 2</h3>
+<p>We still use the same example in 3.1.1</p>
+<p>
+<script type="math/tex; mode=display">
+x_{in}(t) = \sin(2π⋅1000⋅t) + 0.5\sin(2π⋅2000⋅t+3π/4)
+</script>
+</p>
+<p>And let <script type="math/tex">x'(n) = x(n+3)</script>, here is the python code</p>
+<pre><code class="language-python">from scipy.fft import fft, fftfreq
+import numpy as np
+
+fs = 8000  # Sampling rate in Hz
+n = np.arange(0, 8, 1)  # Time vector
+ts = 1.0 / fs
+# Signal with 1000 Hz and 2000 Hz components
+x = 1.0*np.sin(2*np.pi*1000*n*ts) + 0.5*np.sin(2*np.pi*2000*n*ts + (3/4)*np.pi)
+
+x_1 = np.roll(x, -3)
+x_1
+
+array([ 1.06066017,  0.35355339, -1.06066017, -1.35355339, -0.35355339, 0.35355339,  0.35355339,  0.64644661])
+
+X_1 = fft(x_1)
+np.around(X_1,4)
+
+array([ 0.    -0.j    ,  2.8284+2.8284j,  1.4142-1.4142j, -0.    +0.j    ,
+        0.    -0.j    , -0.    -0.j    ,  1.4142+1.4142j,  2.8284-2.8284j])
+
+X_2 = np.array([0+0*1j]*N)
+for m in range(N):
+    X_2[m] = np.exp(1j * 2 * np.pi * 3 * m / N) * X[m]
+np.around(X_2,4)
+
+array([ 0.    +0.j    ,  2.8284+2.8284j,  1.4142-1.4142j, -0.    +0.j    ,
+        0.    -0.j    , -0.    -0.j    ,  1.4142+1.4142j,  2.8284-2.8284j])
+
+np.allclose(X_1, X_2)
+True
+</code></pre>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="37-inverse-dft">3.7 INVERSE DFT</h2>
+<p>
+<script type="math/tex; mode=display">
+\tag{3-23}
+x(n) = \frac{1}{N} \sum_{m = 0}^{N-1} x(m) e^{j2πmn/N}
+</script>
+</p>
+<p>
+<script type="math/tex; mode=display">
+\tag{3-23'}
+x(n) = \frac{1}{N} \sum_{m = 0}^{N-1} X(m) [\cos (2πmn/N) + j \sin(2πmn/N)]
+</script>
+</p>
+<p>Here is the python code to implement it</p>
+<pre><code class="language-python">from scipy.fft import fft, fftfreq, ifft
+import numpy as np
+
+fs = 8000  # Sampling rate in Hz
+n = np.arange(0, 8, 1)  # Time vector
+ts = 1.0 / fs
+# Signal with 1000 Hz and 2000 Hz components
+x = 1.0*np.sin(2*np.pi*1000*n*ts) + 0.5*np.sin(2*np.pi*2000*n*ts + (3/4)*np.pi)
+
+X = fft(x)
+x_ifft = ifft(X)
+np.around(x_ifft,4)
+
+array([ 0.3536+0.j,  0.3536+0.j,  0.6464+0.j,  1.0607+0.j,  0.3536+0.j,
+       -1.0607+0.j, -1.3536-0.j, -0.3536+0.j])
+
+Y_inv = np.array([0+0*1j]*N)
+for m in range(N):
+    Y_inv[m] = 0 + 0*1j
+    for n in range(N):
+        Y_inv[m] = Y_inv[m] + (1 / N) * X[n] * (np.cos(2*np.pi*n*m/N) + 1j*np.sin(2*np.pi*n*m/N))
+np.around(Y_inv, 4)
+
+array([ 0.3536+0.j,  0.3536+0.j,  0.6464+0.j,  1.0607+0.j,  0.3536+0.j,
+       -1.0607+0.j, -1.3536-0.j, -0.3536+0.j])
+
+np.allclose(x_ifft, Y_inv)
+True
+</code></pre>
+<p>
+<script type="math/tex">\square</script>
+</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../udsp02ex/" class="btn btn-neutral float-left" title="Understanding DSP Chapter 02 exercises"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../udsp03ex/" class="btn btn-neutral float-right" title="Understanding DSP Chapter 03 exercises">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../udsp02ex/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../udsp03ex/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
