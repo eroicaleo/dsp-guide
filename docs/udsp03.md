@@ -212,7 +212,7 @@ $$
 M_r = \frac{A_o N}{2}
 $$
 
-* If the DFT input is a complex sinusoid of magnitude Ao (i.e., 
+* If the DFT input is a complex sinusoid of magnitude $A_o$ (i.e., 
   $A_o e^{j2πfnt_s}$) with an integer number of cycles over $N$
   samples, the $M_c$ output magnitude of the DFT for that 
   particular sinewave is
@@ -359,3 +359,70 @@ True
 ```
 
 $\square$
+
+## 3.8 DFT LEAKAGE
+
+For a real cosine input having
+$k$ cycles ($k$ need not be an integer) in the $N$-point input 
+time sequence, the amplitude response of an $N$-point DFT bin in 
+terms of the bin index $m$ is approximated by the sinc function
+
+$$
+\tag{3-25}
+X(m) = \frac{A_o N}{2}
+\frac{\sin [\pi (k-m)]}{\pi (k-m)}
+$$
+
+The python code to plot the signal.
+
+Note we set the frequency of the sine wave to be
+$$ 
+f_o = 1000 \times k
+$$
+
+So when sampling frequency is $64000$, 64 samples will have
+$k$ cycles.
+
+```python
+k = 16.4
+k = 28.6
+k = 3.4
+fo = 1000 * k   # 3.4 full cycles for 64 samples
+x  = 1.0*np.sin(2*np.pi*fo*n*ts)
+
+plt.xlabel('n');
+plt.ylabel('x[n]');
+plt.title(r'$x[n] = \sin (2\pi f_o n t_s)$');
+plt.stem(n, x);
+```
+
+![](./assets/ch030801.png)
+
+After the DFT
+
+```python
+X = fft(x)
+plt.xlabel('m');
+plt.ylabel(r'$|X[m]|$');
+plt.title(r'Plot of signal $|X(m)|$');
+X_m = np.absolute(X)
+plt.stem(n, X_m)
+
+X_sinc = np.zeros_like(X_m)
+for m in range(N):
+    if m >= N // 2:
+        X_sinc[m] = np.absolute(N / 2 * np.sinc((k - (N - m))))
+    else:
+        X_sinc[m] = np.absolute(N / 2 * np.sinc((k - m)))
+
+plt.stem(n, X_sinc, 'r')
+```
+
+![](./assets/ch030802.png)
+
+As we can see use $\text{sinc} (k-m) = \frac{\sin [\pi (k-m)]}{\pi (k-m)}$ can only approximate the amplitude, but not
+exactly match.
+
+## 3.9 Windows
+
+
