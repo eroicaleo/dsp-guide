@@ -383,6 +383,28 @@ $$
 So when sampling frequency is $64000$, 64 samples will have
 $k$ cycles.
 
+Let's first plot when $k = 3$, i.e. 3 full periods over 64 samples.
+
+```python
+# exactly 3 periods over 64 samples
+N  = 64
+n  = np.arange(0, N, 1)
+fs = 1000 * 64  # Sampling rate in Hz
+fo = 1000 * 3   # 3 full cycles for 64 samples
+ts = 1.0 / fs
+x  = 1.0*np.sin(2*np.pi*fo*n*ts)
+
+plt.xlabel('n');
+plt.ylabel('x[n]');
+plt.title(r'$x[n] = \sin (2\pi f_o n t_s)$');
+plt.stem(n, x);
+```
+
+![](./assets/ch030800.png)
+
+Next, we will plot when $k = 3.4$, i.e. 3.4 full cycles for 64 
+samples.
+
 ```python
 k = 16.4
 k = 28.6
@@ -398,7 +420,8 @@ plt.stem(n, x);
 
 ![](./assets/ch030801.png)
 
-After the DFT
+Finally, we will plot the DFT and use $sinc$ function to
+approximate the magnitude.
 
 ```python
 X = fft(x)
@@ -422,6 +445,11 @@ plt.stem(n, X_sinc, 'r')
 
 As we can see use $\text{sinc} (k-m) = \frac{\sin [\pi (k-m)]}{\pi (k-m)}$ can only approximate the amplitude, but not
 exactly match.
+
+* Note here in the python code, since $A_o = 1$,
+so $\frac{A_oN}{2} = \frac{N}{2}$.
+* Also note here we use the property that if $x[n]$ is real,
+then $|X(m)| = |X(N-m)|$, that's why we have the `if-else`.
 
 ## 3.9 Windows
 
