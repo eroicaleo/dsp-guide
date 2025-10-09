@@ -453,4 +453,53 @@ then $|X(m)| = |X(N-m)|$, that's why we have the `if-else`.
 
 ## 3.9 Windows
 
+### Learning Objective
 
+* Verify the square window is indeed `sinc` function in python.
+* Verify the equation in the text book is same as the function
+  in `scipy`.
+* Plot the magnitude response of the window function.
+* Verify the windows are indeed working, i.e. reduce leakage.
+
+### Why do we use windows function
+
+* We want to minimize the sidelobes of `sinc` function.
+* The reason for DFT leakage is because the
+  beginning and the end of the sample interval has a value jump.
+  E.g., when we have 3.4 periods for 64 samples.
+  So we need to make them smooth.
+* When `N` samples are `m` (integer) periods, then beginning and the 
+  end of the sample interval are smooth. Otherwise they have a jump.
+
+### The Fourier transform of square function
+
+* Consider the following window function
+
+$$ 
+f(t) =
+\begin{cases}
+    0,  & -\frac{1}{2} \leq t < -\frac{1}{4} \\
+    +1, & -\frac{1}{4} \leq t \leq +\frac{1}{4} \\
+    0,  & +\frac{1}{4} < t \leq \frac{1}{2}
+\end{cases}
+$$
+
+Compute
+
+$$
+\begin{split}
+\hat{f}(n)
+&= \int_{-1/2}^{1/2} e^{-2πint} f(t) dt \\
+&= \int_{-1/4}^{1/4} e^{-2πint} \cdot 1 dt \\
+&= -\frac{1}{2πin} e^{-2πint} \bigg|_{-1/4}^{1/4} \\
+&= -\frac{1}{2πin} \left[ e^{-πin/2} - e^{πin/2} \right] \\
+&= \frac{1}{2πin} \left[ e^{πin/2} - e^{-πin/2} \right] \\
+&= \frac{1}{2πin} 2i \sin (πn/2) \\
+&= \frac{\sin (πn/2)}{πn} \\
+&= \frac{\text{sinc}(πn/2)}{2} \\
+\end{split}
+$$
+
+Also $\hat{f}(0) = 1/2$.
+
+$\square$
