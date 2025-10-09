@@ -503,3 +503,50 @@ $$
 Also $\hat{f}(0) = 1/2$.
 
 $\square$
+
+### The window function
+
+$$ 
+\tag{3-26}
+X(m) = \sum_{n = 0}^{N-1} w(n) x(n) e^{-j2πnm/N} 
+$$
+
+* Hamming, Hanning, and triangular windows reduce the time-domain signal levels applied to the DFT.
+    * They reduced sidelobe levels relative to the rectangular window.
+    * Their main lobe peak values are reduced relative to the rectangular window.
+
+This is how to genenerate hanning window, note that we are using the `N-1` instead of `N`
+`np.cos(2 * np.pi * n / (N-1))`.
+
+> This makes me think when we perform 16-point `fft`, we should generate a hanning window of $N=17$.
+And then use the first 16-point to multiply the sampled data. 
+
+```python
+# https://numpy.org/doc/stable/reference/generated/numpy.hanning.html
+N = 16
+
+window = np.hanning(N)
+print(len(window))
+print(f'window is: {window}')
+
+n  = np.arange(0, N, 1)
+print(n)
+window_manual = 0.5 - 0.5 * np.cos(2 * np.pi * n / (N-1))
+print(f'window_manual is: {window_manual}')
+
+np.allclose(window, window_manual)
+True
+```
+
+Similarly, this is how to generate hamming window using `numpy` or manually.
+
+```python
+# https://numpy.org/doc/stable/reference/generated/numpy.hamming.html
+
+N = 16
+n  = np.arange(0, N, 1)
+window = np.hamming(N)
+print(f'window is: {window}')
+window_manual = 0.54 - 0.46 * np.cos(2 * np.pi * n / (N-1))
+np.allclose(window, window_manual)
+```
