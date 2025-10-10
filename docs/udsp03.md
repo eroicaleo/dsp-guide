@@ -550,3 +550,119 @@ print(f'window is: {window}')
 window_manual = 0.54 - 0.46 * np.cos(2 * np.pi * n / (N-1))
 np.allclose(window, window_manual)
 ```
+
+### The magnitude response of the window function
+
+* Hanning
+
+```python
+# https://numpy.org/doc/stable/reference/generated/numpy.hanning.html
+N = 128
+
+import matplotlib.pyplot as plt
+from numpy.fft import fft, fftshift
+window = np.hanning(N)
+plt.plot(window)
+plt.title("Hann window")
+plt.ylabel("Amplitude")
+plt.xlabel("Sample")
+plt.show()
+
+plt.figure()
+A = fft(window, 2048) / (N / 2)
+mag = np.abs(fftshift(A))
+freq = np.linspace(-0.5, 0.5, len(A))
+with np.errstate(divide='ignore', invalid='ignore'):
+    response = 20 * np.log10(mag)
+response = np.clip(response, -100, 100)
+plt.plot(freq, response, '-.')
+plt.title("Frequency response of the Hann window")
+plt.ylabel("Magnitude [dB]")
+plt.xlabel("Normalized frequency [cycles per sample]")
+plt.axis('tight')
+plt.xlim([0, 0.12])
+plt.ylim([-60, 1])
+plt.show()
+```
+
+![](./assets/ch0309hann.png)
+
+* Hamming
+
+```python
+# https://numpy.org/doc/stable/reference/generated/numpy.hamming.html
+
+window = np.hamming(N)
+plt.plot(window)
+plt.title("Hamming window")
+plt.ylabel("Amplitude")
+plt.xlabel("Sample")
+plt.show()
+plt.figure()
+A = fft(window, 2048) / (N/2)
+mag = np.abs(fftshift(A))
+freq = np.linspace(-0.5, 0.5, len(A))
+response = 20 * np.log10(mag)
+response = np.clip(response, -100, 100)
+plt.plot(freq, response, '-.')
+plt.title("Frequency response of Hamming window")
+plt.ylabel("Magnitude [dB]")
+plt.xlabel("Normalized frequency [cycles per sample]")
+plt.axis('tight')
+plt.xlim([0, 0.12])
+plt.ylim([-60, 5])
+plt.show()
+```
+
+![](./assets/ch0309hamming.png)
+
+### Apply window function
+
+* We apply the hanning window function to the sine wave which
+  has 3.4 cycles over 64 sampling points. 
+
+```python
+N  = 64
+n  = np.arange(0, N, 1)
+k = 3.4
+fs = 1000 * 64  # Sampling rate in Hz
+ts = 1.0 / fs
+fo = 1000 * k   # 3.4 full cycles for 64 samples
+x = 1.0*np.sin(2*np.pi*fo*n*ts)
+plt.figure()
+plt.stem(n, x * np.hanning(N + 1)[:N])
+
+plt.figure()
+X = fft(x)
+plt.xlabel('m');
+plt.ylabel(r'$|X[m]|$');
+plt.xlim([0, 32])
+plt.title(r'Plot of signal $|X(m)|$');
+X_m = np.absolute(X)
+plt.stem(n, X_m, 'o')
+
+x_win = x * np.hanning(N + 1)[:N]
+X_win = fft(x_win)
+X_win_m = np.absolute(X_win)
+plt.stem(n, X_win_m, 'r')
+```
+
+![](./assets/ch030903.png)
+
+* If we use the following input signal, we can see that
+  by applying the hanning window, it's much easier to
+  spot the $m = 7$ component. 
+
+```python
+N  = 64
+n  = np.arange(0, N, 1)
+k = 3.4
+fs = 1000 * 64  # Sampling rate in Hz
+ts = 1.0 / fs
+fo = 1000 * k   # 3.4 full cycles for 64 samples
+fo1 = 1000 * 7  # 7.0 full cycles for 64 samples
+x = 1.0*np.sin(2*np.pi*fo*n*ts) + 0.1*np.sin(2*np.pi*fo1*n*ts)
+```
+
+![](./assets/ch030904.png)
+
