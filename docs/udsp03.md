@@ -666,3 +666,27 @@ x = 1.0*np.sin(2*np.pi*fo*n*ts) + 0.1*np.sin(2*np.pi*fo1*n*ts)
 
 ![](./assets/ch030904.png)
 
+## 3.10 DFT Scalloping loss
+
+* If we superinterpose several $\frac{\sin (x)}{x}$,
+  we get the following diagram.
+* The gain in the middle is $0.637$, so
+
+$$ 
+20 \log_{10} \frac{0.637}{1.0} = -3.9 \approx -4 \text{ db}
+$$
+
+![](./assets/ch0310.png)
+
+* The scalloping loss of a Hanning window is approximately 0.82, or
+  –1.45 dB, halfway between bin centers.
+
+## 3.11 DFT RESOLUTION, ZERO PADDING, AND FREQUENCY-DOMAIN SAMPLING
+
+### Learning Objective
+
+* Plot the figure 3.21.
+
+### Continuous Fourier Transform
+
+* 
