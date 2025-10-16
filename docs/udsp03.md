@@ -689,4 +689,44 @@ $$
 
 ### Continuous Fourier Transform
 
-* 
+* Suppose we have a signal $f(t)$ which has $3$ full cycles of sine wave and then
+  extends to infinity in both directions.
+* If we apply continuous Fourier transform (CFT), we should get the following diagram 3-20 (b).
+
+![](./assets/fig0320.png)
+
+* And this is the code to plot when we patch $16$ zeros to make $32$-point FFT.
+    * First note, the peak of the main lobe shifted from 3 to 6, because we need to maintaine
+      $\frac{3 \times f_s}{16} = \frac{6 \times f_s}{32}$
+    * As a result, when using `sinc` function, we need to use $\text{sinc}(\frac{16}{32}(n - 6))$ to
+      do the approximation.
+    * Finally notice, the `sinc` function can only approximate the the $DFT$, not exactly match.
+      As shown in the figure below.
+
+```python
+N = 32
+X = fft(x, N)
+plt.figure()
+plt.xlabel('m');
+plt.ylabel(r'$|X[m]|$');
+plt.title(r'Plot of signal $|X(m)|$');
+X_m = np.absolute(X)
+plt.stem(np.arange(0, N, 1), X_m)
+n1 = np.arange(0, N, 0.1)
+plt.plot(n1, np.absolute(8 * np.sinc(0.5*(n1 - 6))), 'r--')
+plt.xlim([0, N*3/8 + 0.5])
+plt.show()
+```
+
+![](./assets/ch031101.png)
+
+#### The definition of DTFT
+
+* Discrete-time Fourier transform (DTFT): The DTFT is the continuous Fourier transform of an L-point 
+  discrete time-domain sequence.
+    * On a computer we can’t perform the DTFT because it has an infinitely fine frequency
+      resolution
+    * We can approximate the DTFT by performing an $N$-point DFT on an $L$-point discrete time sequence
+      where $N > L$.
+* The rule by which we must live is: To realize $F_{res}$ Hz spectral resolution, we must collect
+  $1/F_{res}$ seconds, worth of nonzero time samples for our DFT processing.
