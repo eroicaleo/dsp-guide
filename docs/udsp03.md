@@ -730,3 +730,64 @@ plt.show()
       where $N > L$.
 * The rule by which we must live is: To realize $F_{res}$ Hz spectral resolution, we must collect
   $1/F_{res}$ seconds, worth of nonzero time samples for our DFT processing.
+
+## 3.12 DFT PROCESSING GAIN
+
+* Learning Objective for this section
+    * Be able to reproduce the figure in 3.22 (achieved!)
+
+* DFT can pull signals out of background noise, this is called
+  inherent correlation gain that takes place in any N-point DFT.
+* *Integration gain* is possible when multiple DFT outputs are averaged.
+
+### 3.12.1 Processing Gain of a Single DFT
+
+* It’s valid to think of a DFT bin as a kind of bandpass filter whose
+  band center is located at $mf_s/N$.
+* When $N$ increases
+    * DFT output magnitude increases, eq. 3-17 $M_r = \frac{A_o N}{2}$.
+    * the DFT output bin main lobes become narrower.
+* Here is the code to show DFT of a spectral tone (a
+  constant-frequency sinewave) added to random noise.
+    * We keep the input frequency $f_o = 20 KHz$
+    * For sampling frequency, we can change the `scale = 1, 4, 16` to
+      achieve $64, 256, 1024 kHz$
+    * Another parameter to play with is the `noise_scale`, here, we
+      set it to be 4X of the signal amplitude.
+    * In the first figure, we can see the noise is all over the place.
+    * But in the second figure, we can clearly see the noise is suppressed.
+
+```python
+# exactly m periods over N samples
+scale = 16
+m  = 20
+N  = 64 * scale
+n  = np.arange(0, N, 1)
+fs = 1000 * N  # Sampling rate in Hz
+fo = 1000 * m   # m full cycles for N samples
+ts = 1.0 / fs
+amp = 1.0
+x = amp*np.sin(2*np.pi*fo*n*ts)
+noise_scale = 4.0
+white_noise = np.random.uniform(low=-noise_scale*amp, high=noise_scale*amp, size=N)
+plt.figure()
+plt.plot(np.arange(0, N, 1), x)
+plt.plot(np.arange(0, N, 1), white_noise, 'ro')
+```
+
+![](./assets/ch032201.png)
+
+```python
+X = fft(x + white_noise, N)
+plt.figure()
+plt.xlabel('DFT bin number');
+plt.ylabel(r'$|X[m]|$');
+plt.title(r'Bin power in dB');
+X_m = np.absolute(X)
+X_m_max = max(X_m)
+X_m_db = 20 * np.log10(X_m/X_m_max)
+plt.plot(np.arange(0, N, 1), X_m_db)
+plt.xlim([0, N // 2])
+```
+
+![](./assets/ch032202.png)
