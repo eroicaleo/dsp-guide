@@ -791,3 +791,135 @@ plt.xlim([0, N // 2])
 ```
 
 ![](./assets/ch032202.png)
+
+* To quantify the idea of DFT processing gain, we can define a 
+  signal-to-noise ratio (SNR) as the DFT’s output signal-power level over 
+  the average output noise-power level.
+* But it's hard to quantify this for the following reasons:
+    * The energy for $N$ samples of random noise cannot be predicted.
+    * If the input frequency is not at bin center, we will see leakage.
+    * If window is applied, it will affect the leakage, thus the SNR.
+* In practice, we are more interested to see the trend of SNR as the
+  function of $N$.
+    * Noise rms is $~ \sqrt[]{N}$.
+    * Signal tone magnitude is $~ N$.
+* The equation for $N > N'$ is
+
+$$
+\tag{3-33}
+SNR_N = SNR_{N'} + 10 \log_{10} (\frac{N'}{N})
+$$
+
+* Double the $N$ will increase $SNR$ by 3db.
+
+## 3.13 The DFT of Rectangular Functions
+
+* Learning Objective
+    * Understand the DFT of a rectangular function (3-34)
+
+### 3.13.0 Introduction
+
+$$
+\tag{3-34}
+\text{DFT}_{\text{rect.function}} =
+\frac{\sin (x)}{\sin (x/N)},
+\text{or}
+\frac{\sin (x)}{x},
+\text{or}
+\frac{\sin (Nx/2)}{\sin (x/2)}
+$$
+
+### 3.13.1 DFT of a General Rectangular Function
+
+$$
+\tag{3-35}
+X(m) = \sum_{n = -(N/2)+1}^{N/2} x(n) e^{-j2πnm/N}
+$$
+
+With $x(n)$ being nonzero only over the range of
+$–n_o ≤ n ≤–n_o + (K–1)$,
+
+We have
+
+$$
+\tag{3-36}
+X(m) = \sum_{n = –n_o}^{–n_o + (K–1)} 1 \cdot e^{-j2πnm/N}
+$$
+
+Replace $q = 2πm/N$, we have
+
+$$ 
+\tag{3-37}
+\begin{align*}
+  X(q)
+  &= \sum_{n = –n_o}^{–n_o + (K–1)} 1 \cdot e^{-jqn} \\
+  &= e^{-jq(-n_o)} + e^{-jq(-n_o+1)} + \cdots + e^{-jq(-n_o+(K-1))} \\
+  &= e^{jq(n_o)} (e^{-j0q} + e^{-j1q} + \cdots + e^{-j(K-1)q}) \\
+  &= e^{jq(n_o)} \sum_{p=0}^{K-1} e^{-jpq} \\
+\end{align*}
+$$
+
+$$
+\tag{3-37}
+\begin{align*}
+\sum_{p=0}^{K-1} e^{-jpq}
+&=\frac{
+  1 - e^{-jqK}
+}{1 - e^{-jq}} \\
+&= \frac{
+  e^{-jqK/2} (e^{jqK/2} - e^{-jqK/2})
+}{
+  e^{-jq/2} (e^{jq/2} - e^{-jq/2})
+} \\
+&=
+e^{-jq(K-1)/2}
+\frac{
+  e^{jqK/2} - e^{-jqK/2}
+}{
+  e^{jq/2} - e^{-jq/2}
+} \\
+&=
+e^{-jq(K-1)/2} \frac{
+  \sin (qK/2)
+}{
+  \sin (q/2)
+}
+\end{align*} 
+$$
+
+And if we plug the $q = 2πm/N$ back, we have
+
+$$
+\tag{3.43}
+\begin{align*}
+X(m)
+&= e^{jq(n_o)-jq(K-1)/2}
+\frac{
+  \sin (qK/2)
+}{
+  \sin (q/2)
+} \\
+&=
+e^{jq(n_o - (K-1)/2)}
+\frac{
+  \sin (qK/2)
+}{
+  \sin (q/2)
+} \\
+&=
+e^{j(2πm/N)(n_o - (K-1)/2)}
+\frac{
+  \sin ((2πm/N)K/2)
+}{
+  \sin ((2πm/N)/2)
+} \\
+&= e^{j(2πm/N)(n_o - (K-1)/2)}
+\frac{
+  \sin (πmK/N)
+}{
+  \sin (πm/N)
+} \\ 
+\end{align*} 
+$$
+
+See the `ch03.ipynb` section 3.13 for an example to plot with `scipy.fft`.

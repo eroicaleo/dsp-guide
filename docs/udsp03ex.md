@@ -581,3 +581,80 @@ Then there will be no $x_{\text{imag}}(n)$, only
 $x_{\text{real}}(n)$ left.
 
 $\square$
+
+## 3.15
+
+Here is a real-world spectrum analysis problem. Figure P3–15(a) shows 902
+samples of an $x(n)$ time sequence. (For clarity, we do not show the $x(n)$ sam-
+ples as individual dots.) That sequence is the sound of the “A3” note (“A”
+below middle “C”) from an acoustic guitar, sampled at $f_s = 22.255 kHz$. Figure
+P3–15(b) shows the $X(m)$ spectral magnitude samples, the DFT of $x(n)$, on a
+linear scale for the frequency index range of $0 \leq m \leq 59$.
+
+(a) Based on the $X(m)$ samples, what is the fundamental frequency, in Hz, of
+the guitar’s “A3” note?
+
+**Solution**
+
+$$ 
+f_o = \frac{m}{N} f_s = \frac{9}{902} 22.255 \approx 222.06 Hz
+$$
+
+$\square$
+
+(b) When we plot the DFT magnitude samples on a logarithmic scale, as in
+Figure P3–15(c), we see spectral harmonics and learn that the guitar note is
+rich in spectral content. (The harmonics are integer multiples of the fun-
+damental frequency.) That’s why guitars have their pleasing sound, de-
+pending on the guitarist’s skill, of course. What is the frequency of the
+highest nonzero spectral component of the guitar’s “A3” note?
+
+**Solution**
+
+It's
+
+$$ 
+f_o = \frac{2m}{N} f_s = \frac{18}{902} \times 22.255 \approx 444.11 Hz
+$$
+
+$\square$
+
+![](./assets/ex0315.png)
+
+## 3.16
+
+Figure P3–16(a) shows a 16-point Hanning window sequence, $h_1(n)$, defined by
+
+$$ 
+h_1(n) = 0.5 - 0.5 \cos (\frac{2 \pi n}{16}), \quad\text{for } n = 0,1,2,\cdots ,
+$$
+
+The magnitude of its DFT samples, $|H_1(m)|$, is shown in Figure P3–16(b).
+(For simplicity, we show only the positive-frequency range of the $|H_1(m)|$
+samples.) Notice that only the $|H_1(0)|$ and the $|H_1(1)|$ frequency-domain
+samples are nonzero.
+
+(a) Sequence $h_1(n)$ comprises two signals. Looking carefully at $h_1(n)$, describe
+what those two signals are and justify why $|H_1(m)|$ looks the way it does.
+
+**Solution**:
+
+One is the DC component, the other is $\frac{1}{16} f_s$ component.
+
+$\square$
+
+(b) Given your understanding of the relationship between $h_1(n)$ and $|H_1(m)|$,
+look at $h_2(n)$, in Figure P3–16(c), which is two repetitions of the original
+$h_1(n)$ sequence. Draw a rough sketch of the spectral magnitude sequence
+$|H_2(m)|$ over its positive-frequency range.
+
+**Solution**:
+
+Because $h_2(n) = h_1(n)$.
+
+$$ 
+h_2(n) = h_1(n) = 0.5 - 0.5 \cos (\frac{2 \pi n}{16}) \\
+= 0.5 - 0.5 \cos (2 \pi n \frac{2}{32})
+$$
+
+So the 
