@@ -64,7 +64,7 @@
                 </li>
               </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">Understanding DSP Chapter 03</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Understanding DSP Chapter 03</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#31-understanding-the-dft-equation">3.1 UNDERSTANDING THE DFT EQUATION</a>
         <ul>
@@ -90,11 +90,61 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#37-inverse-dft">3.7 INVERSE DFT</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#38-dft-leakage">3.8 DFT LEAKAGE</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#39-windows">3.9 Windows</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#learning-objective">Learning Objective</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#why-do-we-use-windows-function">Why do we use windows function</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#the-fourier-transform-of-square-function">The Fourier transform of square function</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#the-window-function">The window function</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#the-magnitude-response-of-the-window-function">The magnitude response of the window function</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#apply-window-function">Apply window function</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#310-dft-scalloping-loss">3.10 DFT Scalloping loss</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#311-dft-resolution-zero-padding-and-frequency-domain-sampling">3.11 DFT RESOLUTION, ZERO PADDING, AND FREQUENCY-DOMAIN SAMPLING</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#learning-objective_1">Learning Objective</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#continuous-fourier-transform">Continuous Fourier Transform</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#the-definition-of-dtft">The definition of DTFT</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#312-dft-processing-gain">3.12 DFT PROCESSING GAIN</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#3121-processing-gain-of-a-single-dft">3.12.1 Processing Gain of a Single DFT</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#313-the-dft-of-rectangular-functions">3.13 The DFT of Rectangular Functions</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#3130-introduction">3.13.0 Introduction</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3131-dft-of-a-general-rectangular-function">3.13.1 DFT of a General Rectangular Function</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                 </li>
               </ul>
               <ul>
                 <li class="toctree-l1"><a class="reference internal" href="../udsp03ex/">Understanding DSP Chapter 03 exercises</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../unresolved/">Unresolved</a>
                 </li>
               </ul>
       </div>
@@ -110,7 +160,7 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href=".." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Understanding DSP Chapter 03</li>
     <li class="wy-breadcrumbs-aside">
           <a href="https://github.com/eroicaleo/dsp-guide/blob/main/docs/udsp03.md" class="icon icon-github"> Edit on Github</a>
@@ -354,7 +404,7 @@ M_r = \frac{A_o N}{2}
 </script>
 </p>
 <ul>
-<li>If the DFT input is a complex sinusoid of magnitude Ao (i.e., 
+<li>If the DFT input is a complex sinusoid of magnitude <script type="math/tex">A_o</script> (i.e., 
   <script type="math/tex">A_o e^{j2πfnt_s}</script>) with an integer number of cycles over <script type="math/tex">N</script>
   samples, the <script type="math/tex">M_c</script> output magnitude of the DFT for that 
   particular sinewave is</li>
@@ -502,6 +552,604 @@ True
 <p>
 <script type="math/tex">\square</script>
 </p>
+<h2 id="38-dft-leakage">3.8 DFT LEAKAGE</h2>
+<p>For a real cosine input having
+<script type="math/tex">k</script> cycles (<script type="math/tex">k</script> need not be an integer) in the <script type="math/tex">N</script>-point input 
+time sequence, the amplitude response of an <script type="math/tex">N</script>-point DFT bin in 
+terms of the bin index <script type="math/tex">m</script> is approximated by the sinc function</p>
+<p>
+<script type="math/tex; mode=display">
+\tag{3-25}
+X(m) = \frac{A_o N}{2}
+\frac{\sin [\pi (k-m)]}{\pi (k-m)}
+</script>
+</p>
+<p>The python code to plot the signal.</p>
+<p>Note we set the frequency of the sine wave to be
+<script type="math/tex; mode=display"> 
+f_o = 1000 \times k
+</script>
+</p>
+<p>So when sampling frequency is <script type="math/tex">64000</script>, 64 samples will have
+<script type="math/tex">k</script> cycles.</p>
+<p>Let's first plot when <script type="math/tex">k = 3</script>, i.e. 3 full periods over 64 samples.</p>
+<pre><code class="language-python"># exactly 3 periods over 64 samples
+N  = 64
+n  = np.arange(0, N, 1)
+fs = 1000 * 64  # Sampling rate in Hz
+fo = 1000 * 3   # 3 full cycles for 64 samples
+ts = 1.0 / fs
+x  = 1.0*np.sin(2*np.pi*fo*n*ts)
+
+plt.xlabel('n');
+plt.ylabel('x[n]');
+plt.title(r'$x[n] = \sin (2\pi f_o n t_s)$');
+plt.stem(n, x);
+</code></pre>
+<p><img alt="" src="../assets/ch030800.png" /></p>
+<p>Next, we will plot when <script type="math/tex">k = 3.4</script>, i.e. 3.4 full cycles for 64 
+samples.</p>
+<pre><code class="language-python">k = 16.4
+k = 28.6
+k = 3.4
+fo = 1000 * k   # 3.4 full cycles for 64 samples
+x  = 1.0*np.sin(2*np.pi*fo*n*ts)
+
+plt.xlabel('n');
+plt.ylabel('x[n]');
+plt.title(r'$x[n] = \sin (2\pi f_o n t_s)$');
+plt.stem(n, x);
+</code></pre>
+<p><img alt="" src="../assets/ch030801.png" /></p>
+<p>Finally, we will plot the DFT and use <script type="math/tex">sinc</script> function to
+approximate the magnitude.</p>
+<pre><code class="language-python">X = fft(x)
+plt.xlabel('m');
+plt.ylabel(r'$|X[m]|$');
+plt.title(r'Plot of signal $|X(m)|$');
+X_m = np.absolute(X)
+plt.stem(n, X_m)
+
+X_sinc = np.zeros_like(X_m)
+for m in range(N):
+    if m &gt;= N // 2:
+        X_sinc[m] = np.absolute(N / 2 * np.sinc((k - (N - m))))
+    else:
+        X_sinc[m] = np.absolute(N / 2 * np.sinc((k - m)))
+
+plt.stem(n, X_sinc, 'r')
+</code></pre>
+<p><img alt="" src="../assets/ch030802.png" /></p>
+<p>As we can see use <script type="math/tex">\text{sinc} (k-m) = \frac{\sin [\pi (k-m)]}{\pi (k-m)}</script> can only approximate the amplitude, but not
+exactly match.</p>
+<ul>
+<li>Note here in the python code, since <script type="math/tex">A_o = 1</script>,
+so <script type="math/tex">\frac{A_oN}{2} = \frac{N}{2}</script>.</li>
+<li>Also note here we use the property that if <script type="math/tex">x[n]</script> is real,
+then <script type="math/tex">|X(m)| = |X(N-m)|</script>, that's why we have the <code>if-else</code>.</li>
+</ul>
+<h2 id="39-windows">3.9 Windows</h2>
+<h3 id="learning-objective">Learning Objective</h3>
+<ul>
+<li>Verify the square window is indeed <code>sinc</code> function in python.</li>
+<li>Verify the equation in the text book is same as the function
+  in <code>scipy</code>.</li>
+<li>Plot the magnitude response of the window function.</li>
+<li>Verify the windows are indeed working, i.e. reduce leakage.</li>
+</ul>
+<h3 id="why-do-we-use-windows-function">Why do we use windows function</h3>
+<ul>
+<li>We want to minimize the sidelobes of <code>sinc</code> function.</li>
+<li>The reason for DFT leakage is because the
+  beginning and the end of the sample interval has a value jump.
+  E.g., when we have 3.4 periods for 64 samples.
+  So we need to make them smooth.</li>
+<li>When <code>N</code> samples are <code>m</code> (integer) periods, then beginning and the 
+  end of the sample interval are smooth. Otherwise they have a jump.</li>
+</ul>
+<h3 id="the-fourier-transform-of-square-function">The Fourier transform of square function</h3>
+<ul>
+<li>Consider the following window function</li>
+</ul>
+<p>
+<script type="math/tex; mode=display"> 
+f(t) =
+\begin{cases}
+    0,  & -\frac{1}{2} \leq t < -\frac{1}{4} \\
+    +1, & -\frac{1}{4} \leq t \leq +\frac{1}{4} \\
+    0,  & +\frac{1}{4} < t \leq \frac{1}{2}
+\end{cases}
+</script>
+</p>
+<p>Compute</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{split}
+\hat{f}(n)
+&= \int_{-1/2}^{1/2} e^{-2πint} f(t) dt \\
+&= \int_{-1/4}^{1/4} e^{-2πint} \cdot 1 dt \\
+&= -\frac{1}{2πin} e^{-2πint} \bigg|_{-1/4}^{1/4} \\
+&= -\frac{1}{2πin} \left[ e^{-πin/2} - e^{πin/2} \right] \\
+&= \frac{1}{2πin} \left[ e^{πin/2} - e^{-πin/2} \right] \\
+&= \frac{1}{2πin} 2i \sin (πn/2) \\
+&= \frac{\sin (πn/2)}{πn} \\
+&= \frac{\text{sinc}(πn/2)}{2} \\
+\end{split}
+</script>
+</p>
+<p>Also <script type="math/tex">\hat{f}(0) = 1/2</script>.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h3 id="the-window-function">The window function</h3>
+<p>
+<script type="math/tex; mode=display"> 
+\tag{3-26}
+X(m) = \sum_{n = 0}^{N-1} w(n) x(n) e^{-j2πnm/N} 
+</script>
+</p>
+<ul>
+<li>Hamming, Hanning, and triangular windows reduce the time-domain signal levels applied to the DFT.<ul>
+<li>They reduced sidelobe levels relative to the rectangular window.</li>
+<li>Their main lobe peak values are reduced relative to the rectangular window.</li>
+</ul>
+</li>
+</ul>
+<p>This is how to genenerate hanning window, note that we are using the <code>N-1</code> instead of <code>N</code>
+<code>np.cos(2 * np.pi * n / (N-1))</code>.</p>
+<blockquote>
+<p>This makes me think when we perform 16-point <code>fft</code>, we should generate a hanning window of <script type="math/tex">N=17</script>.
+And then use the first 16-point to multiply the sampled data. </p>
+</blockquote>
+<pre><code class="language-python"># https://numpy.org/doc/stable/reference/generated/numpy.hanning.html
+N = 16
+
+window = np.hanning(N)
+print(len(window))
+print(f'window is: {window}')
+
+n  = np.arange(0, N, 1)
+print(n)
+window_manual = 0.5 - 0.5 * np.cos(2 * np.pi * n / (N-1))
+print(f'window_manual is: {window_manual}')
+
+np.allclose(window, window_manual)
+True
+</code></pre>
+<p>Similarly, this is how to generate hamming window using <code>numpy</code> or manually.</p>
+<pre><code class="language-python"># https://numpy.org/doc/stable/reference/generated/numpy.hamming.html
+
+N = 16
+n  = np.arange(0, N, 1)
+window = np.hamming(N)
+print(f'window is: {window}')
+window_manual = 0.54 - 0.46 * np.cos(2 * np.pi * n / (N-1))
+np.allclose(window, window_manual)
+</code></pre>
+<h3 id="the-magnitude-response-of-the-window-function">The magnitude response of the window function</h3>
+<ul>
+<li>Hanning</li>
+</ul>
+<pre><code class="language-python"># https://numpy.org/doc/stable/reference/generated/numpy.hanning.html
+N = 128
+
+import matplotlib.pyplot as plt
+from numpy.fft import fft, fftshift
+window = np.hanning(N)
+plt.plot(window)
+plt.title(&quot;Hann window&quot;)
+plt.ylabel(&quot;Amplitude&quot;)
+plt.xlabel(&quot;Sample&quot;)
+plt.show()
+
+plt.figure()
+A = fft(window, 2048) / (N / 2)
+mag = np.abs(fftshift(A))
+freq = np.linspace(-0.5, 0.5, len(A))
+with np.errstate(divide='ignore', invalid='ignore'):
+    response = 20 * np.log10(mag)
+response = np.clip(response, -100, 100)
+plt.plot(freq, response, '-.')
+plt.title(&quot;Frequency response of the Hann window&quot;)
+plt.ylabel(&quot;Magnitude [dB]&quot;)
+plt.xlabel(&quot;Normalized frequency [cycles per sample]&quot;)
+plt.axis('tight')
+plt.xlim([0, 0.12])
+plt.ylim([-60, 1])
+plt.show()
+</code></pre>
+<p><img alt="" src="../assets/ch0309hann.png" /></p>
+<ul>
+<li>Hamming</li>
+</ul>
+<pre><code class="language-python"># https://numpy.org/doc/stable/reference/generated/numpy.hamming.html
+
+window = np.hamming(N)
+plt.plot(window)
+plt.title(&quot;Hamming window&quot;)
+plt.ylabel(&quot;Amplitude&quot;)
+plt.xlabel(&quot;Sample&quot;)
+plt.show()
+plt.figure()
+A = fft(window, 2048) / (N/2)
+mag = np.abs(fftshift(A))
+freq = np.linspace(-0.5, 0.5, len(A))
+response = 20 * np.log10(mag)
+response = np.clip(response, -100, 100)
+plt.plot(freq, response, '-.')
+plt.title(&quot;Frequency response of Hamming window&quot;)
+plt.ylabel(&quot;Magnitude [dB]&quot;)
+plt.xlabel(&quot;Normalized frequency [cycles per sample]&quot;)
+plt.axis('tight')
+plt.xlim([0, 0.12])
+plt.ylim([-60, 5])
+plt.show()
+</code></pre>
+<p><img alt="" src="../assets/ch0309hamming.png" /></p>
+<h3 id="apply-window-function">Apply window function</h3>
+<ul>
+<li>We apply the hanning window function to the sine wave which
+  has 3.4 cycles over 64 sampling points. </li>
+</ul>
+<pre><code class="language-python">N  = 64
+n  = np.arange(0, N, 1)
+k = 3.4
+fs = 1000 * 64  # Sampling rate in Hz
+ts = 1.0 / fs
+fo = 1000 * k   # 3.4 full cycles for 64 samples
+x = 1.0*np.sin(2*np.pi*fo*n*ts)
+plt.figure()
+plt.stem(n, x * np.hanning(N + 1)[:N])
+
+plt.figure()
+X = fft(x)
+plt.xlabel('m');
+plt.ylabel(r'$|X[m]|$');
+plt.xlim([0, 32])
+plt.title(r'Plot of signal $|X(m)|$');
+X_m = np.absolute(X)
+plt.stem(n, X_m, 'o')
+
+x_win = x * np.hanning(N + 1)[:N]
+X_win = fft(x_win)
+X_win_m = np.absolute(X_win)
+plt.stem(n, X_win_m, 'r')
+</code></pre>
+<p><img alt="" src="../assets/ch030903.png" /></p>
+<ul>
+<li>If we use the following input signal, we can see that
+  by applying the hanning window, it's much easier to
+  spot the <script type="math/tex">m = 7</script> component. </li>
+</ul>
+<pre><code class="language-python">N  = 64
+n  = np.arange(0, N, 1)
+k = 3.4
+fs = 1000 * 64  # Sampling rate in Hz
+ts = 1.0 / fs
+fo = 1000 * k   # 3.4 full cycles for 64 samples
+fo1 = 1000 * 7  # 7.0 full cycles for 64 samples
+x = 1.0*np.sin(2*np.pi*fo*n*ts) + 0.1*np.sin(2*np.pi*fo1*n*ts)
+</code></pre>
+<p><img alt="" src="../assets/ch030904.png" /></p>
+<h2 id="310-dft-scalloping-loss">3.10 DFT Scalloping loss</h2>
+<ul>
+<li>If we superinterpose several <script type="math/tex">\frac{\sin (x)}{x}</script>,
+  we get the following diagram.</li>
+<li>The gain in the middle is <script type="math/tex">0.637</script>, so</li>
+</ul>
+<p>
+<script type="math/tex; mode=display"> 
+20 \log_{10} \frac{0.637}{1.0} = -3.9 \approx -4 \text{ db}
+</script>
+</p>
+<p><img alt="" src="../assets/ch0310.png" /></p>
+<ul>
+<li>The scalloping loss of a Hanning window is approximately 0.82, or
+  –1.45 dB, halfway between bin centers.</li>
+</ul>
+<h2 id="311-dft-resolution-zero-padding-and-frequency-domain-sampling">3.11 DFT RESOLUTION, ZERO PADDING, AND FREQUENCY-DOMAIN SAMPLING</h2>
+<h3 id="learning-objective_1">Learning Objective</h3>
+<ul>
+<li>Plot the figure 3.21.</li>
+</ul>
+<h3 id="continuous-fourier-transform">Continuous Fourier Transform</h3>
+<ul>
+<li>Suppose we have a signal <script type="math/tex">f(t)</script> which has <script type="math/tex">3</script> full cycles of sine wave and then
+  extends to infinity in both directions.</li>
+<li>If we apply continuous Fourier transform (CFT), we should get the following diagram 3-20 (b).</li>
+</ul>
+<p><img alt="" src="../assets/fig0320.png" /></p>
+<ul>
+<li>And this is the code to plot when we patch <script type="math/tex">16</script> zeros to make <script type="math/tex">32</script>-point FFT.<ul>
+<li>First note, the peak of the main lobe shifted from 3 to 6, because we need to maintaine
+  <script type="math/tex">\frac{3 \times f_s}{16} = \frac{6 \times f_s}{32}</script>
+</li>
+<li>As a result, when using <code>sinc</code> function, we need to use <script type="math/tex">\text{sinc}(\frac{16}{32}(n - 6))</script> to
+  do the approximation.</li>
+<li>Finally notice, the <code>sinc</code> function can only approximate the the <script type="math/tex">DFT</script>, not exactly match.
+  As shown in the figure below.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python">N = 32
+X = fft(x, N)
+plt.figure()
+plt.xlabel('m');
+plt.ylabel(r'$|X[m]|$');
+plt.title(r'Plot of signal $|X(m)|$');
+X_m = np.absolute(X)
+plt.stem(np.arange(0, N, 1), X_m)
+n1 = np.arange(0, N, 0.1)
+plt.plot(n1, np.absolute(8 * np.sinc(0.5*(n1 - 6))), 'r--')
+plt.xlim([0, N*3/8 + 0.5])
+plt.show()
+</code></pre>
+<p><img alt="" src="../assets/ch031101.png" /></p>
+<h4 id="the-definition-of-dtft">The definition of DTFT</h4>
+<ul>
+<li>Discrete-time Fourier transform (DTFT): The DTFT is the continuous Fourier transform of an L-point 
+  discrete time-domain sequence.<ul>
+<li>On a computer we can’t perform the DTFT because it has an infinitely fine frequency
+  resolution</li>
+<li>We can approximate the DTFT by performing an <script type="math/tex">N</script>-point DFT on an <script type="math/tex">L</script>-point discrete time sequence
+  where <script type="math/tex">N > L</script>.</li>
+</ul>
+</li>
+<li>The rule by which we must live is: To realize <script type="math/tex">F_{res}</script> Hz spectral resolution, we must collect
+  <script type="math/tex">1/F_{res}</script> seconds, worth of nonzero time samples for our DFT processing.</li>
+</ul>
+<h2 id="312-dft-processing-gain">3.12 DFT PROCESSING GAIN</h2>
+<ul>
+<li>
+<p>Learning Objective for this section</p>
+<ul>
+<li>Be able to reproduce the figure in 3.22 (achieved!)</li>
+</ul>
+</li>
+<li>
+<p>DFT can pull signals out of background noise, this is called
+  inherent correlation gain that takes place in any N-point DFT.</p>
+</li>
+<li><em>Integration gain</em> is possible when multiple DFT outputs are averaged.</li>
+</ul>
+<h3 id="3121-processing-gain-of-a-single-dft">3.12.1 Processing Gain of a Single DFT</h3>
+<ul>
+<li>It’s valid to think of a DFT bin as a kind of bandpass filter whose
+  band center is located at <script type="math/tex">mf_s/N</script>.</li>
+<li>When <script type="math/tex">N</script> increases<ul>
+<li>DFT output magnitude increases, eq. 3-17 <script type="math/tex">M_r = \frac{A_o N}{2}</script>.</li>
+<li>the DFT output bin main lobes become narrower.</li>
+</ul>
+</li>
+<li>Here is the code to show DFT of a spectral tone (a
+  constant-frequency sinewave) added to random noise.<ul>
+<li>We keep the input frequency <script type="math/tex">f_o = 20 KHz</script>
+</li>
+<li>For sampling frequency, we can change the <code>scale = 1, 4, 16</code> to
+  achieve <script type="math/tex">64, 256, 1024 kHz</script>
+</li>
+<li>Another parameter to play with is the <code>noise_scale</code>, here, we
+  set it to be 4X of the signal amplitude.</li>
+<li>In the first figure, we can see the noise is all over the place.</li>
+<li>But in the second figure, we can clearly see the noise is suppressed.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python"># exactly m periods over N samples
+scale = 16
+m  = 20
+N  = 64 * scale
+n  = np.arange(0, N, 1)
+fs = 1000 * N  # Sampling rate in Hz
+fo = 1000 * m   # m full cycles for N samples
+ts = 1.0 / fs
+amp = 1.0
+x = amp*np.sin(2*np.pi*fo*n*ts)
+noise_scale = 4.0
+white_noise = np.random.uniform(low=-noise_scale*amp, high=noise_scale*amp, size=N)
+plt.figure()
+plt.plot(np.arange(0, N, 1), x)
+plt.plot(np.arange(0, N, 1), white_noise, 'ro')
+</code></pre>
+<p><img alt="" src="../assets/ch032201.png" /></p>
+<pre><code class="language-python">X = fft(x + white_noise, N)
+plt.figure()
+plt.xlabel('DFT bin number');
+plt.ylabel(r'$|X[m]|$');
+plt.title(r'Bin power in dB');
+X_m = np.absolute(X)
+X_m_max = max(X_m)
+X_m_db = 20 * np.log10(X_m/X_m_max)
+plt.plot(np.arange(0, N, 1), X_m_db)
+plt.xlim([0, N // 2])
+</code></pre>
+<p><img alt="" src="../assets/ch032202.png" /></p>
+<ul>
+<li>To quantify the idea of DFT processing gain, we can define a 
+  signal-to-noise ratio (SNR) as the DFT’s output signal-power level over 
+  the average output noise-power level.</li>
+<li>But it's hard to quantify this for the following reasons:<ul>
+<li>The energy for <script type="math/tex">N</script> samples of random noise cannot be predicted.</li>
+<li>If the input frequency is not at bin center, we will see leakage.</li>
+<li>If window is applied, it will affect the leakage, thus the SNR.</li>
+</ul>
+</li>
+<li>In practice, we are more interested to see the trend of SNR as the
+  function of <script type="math/tex">N</script>.<ul>
+<li>Noise rms is <script type="math/tex">~ \sqrt[]{N}</script>.</li>
+<li>Signal tone magnitude is <script type="math/tex">~ N</script>.</li>
+</ul>
+</li>
+<li>The equation for <script type="math/tex">N > N'</script> is</li>
+</ul>
+<p>
+<script type="math/tex; mode=display">
+\tag{3-33}
+SNR_N = SNR_{N'} + 10 \log_{10} (\frac{N'}{N})
+</script>
+</p>
+<ul>
+<li>Double the <script type="math/tex">N</script> will increase <script type="math/tex">SNR</script> by 3db.</li>
+</ul>
+<h2 id="313-the-dft-of-rectangular-functions">3.13 The DFT of Rectangular Functions</h2>
+<ul>
+<li>Learning Objective<ul>
+<li>Understand the DFT of a rectangular function (3-34)</li>
+</ul>
+</li>
+</ul>
+<h3 id="3130-introduction">3.13.0 Introduction</h3>
+<p>
+<script type="math/tex; mode=display">
+\tag{3-34}
+\text{DFT}_{\text{rect.function}} =
+\frac{\sin (x)}{\sin (x/N)},
+\text{or}
+\frac{\sin (x)}{x},
+\text{or}
+\frac{\sin (Nx/2)}{\sin (x/2)}
+</script>
+</p>
+<h3 id="3131-dft-of-a-general-rectangular-function">3.13.1 DFT of a General Rectangular Function</h3>
+<p>
+<script type="math/tex; mode=display">
+\tag{3-35}
+X(m) = \sum_{n = -(N/2)+1}^{N/2} x(n) e^{-j2πnm/N}
+</script>
+</p>
+<p>With <script type="math/tex">x(n)</script> being nonzero only over the range of
+<script type="math/tex">–n_o ≤ n ≤–n_o + (K–1)</script>,</p>
+<p>We have</p>
+<p>
+<script type="math/tex; mode=display">
+\tag{3-36}
+X(m) = \sum_{n = –n_o}^{–n_o + (K–1)} 1 \cdot e^{-j2πnm/N}
+</script>
+</p>
+<p>Replace <script type="math/tex">q = 2πm/N</script>, we have</p>
+<p>
+<script type="math/tex; mode=display"> 
+\tag{3-37}
+\begin{align*}
+  X(q)
+  &= \sum_{n = –n_o}^{–n_o + (K–1)} 1 \cdot e^{-jqn} \\
+  &= e^{-jq(-n_o)} + e^{-jq(-n_o+1)} + \cdots + e^{-jq(-n_o+(K-1))} \\
+  &= e^{jq(n_o)} (e^{-j0q} + e^{-j1q} + \cdots + e^{-j(K-1)q}) \\
+  &= e^{jq(n_o)} \sum_{p=0}^{K-1} e^{-jpq} \\
+\end{align*}
+</script>
+</p>
+<p>
+<script type="math/tex; mode=display">
+\tag{3-37}
+\begin{align*}
+\sum_{p=0}^{K-1} e^{-jpq}
+&=\frac{
+  1 - e^{-jqK}
+}{1 - e^{-jq}} \\
+&= \frac{
+  e^{-jqK/2} (e^{jqK/2} - e^{-jqK/2})
+}{
+  e^{-jq/2} (e^{jq/2} - e^{-jq/2})
+} \\
+&=
+e^{-jq(K-1)/2}
+\frac{
+  e^{jqK/2} - e^{-jqK/2}
+}{
+  e^{jq/2} - e^{-jq/2}
+} \\
+&=
+e^{-jq(K-1)/2} \frac{
+  \sin (qK/2)
+}{
+  \sin (q/2)
+}
+\end{align*} 
+</script>
+</p>
+<p>And if we plug the <script type="math/tex">q = 2πm/N</script> back, we have</p>
+<p>
+<script type="math/tex; mode=display">
+\tag{3.43}
+\begin{align*}
+X(m)
+&= e^{jq(n_o)-jq(K-1)/2}
+\frac{
+  \sin (qK/2)
+}{
+  \sin (q/2)
+} \\
+&=
+e^{jq(n_o - (K-1)/2)}
+\frac{
+  \sin (qK/2)
+}{
+  \sin (q/2)
+} \\
+&=
+e^{j(2πm/N)(n_o - (K-1)/2)}
+\frac{
+  \sin ((2πm/N)K/2)
+}{
+  \sin ((2πm/N)/2)
+} \\
+&= e^{j(2πm/N)(n_o - (K-1)/2)}
+\frac{
+  \sin (πmK/N)
+}{
+  \sin (πm/N)
+} \\ 
+\end{align*} 
+</script>
+</p>
+<p>See the <code>ch03.ipynb</code> section 3.13 for an example to plot with <code>scipy.fft</code>.
+Here is a summary:</p>
+<pre><code class="language-python">n = np.arange(-17, 19)  # 36 samples: -17, ..., 18
+x = np.where((n &gt;= -3) &amp; (n &lt;= 5), 1.0, 0.0)
+N = n.size
+
+X = fft(x, N)
+# DFT is N-periodic in k: X[k] = X[k mod N] for any integer k
+k = np.arange(-21, 22)
+X_mag = np.abs(X[np.mod(k, N)])
+
+X_mag_eq = np.abs(np.sinc(k*9/N)/np.sinc(k/N) * 9)
+np.allclose(X_mag_eq, X_mag)
+</code></pre>
+<p>Note we verify it with <code>np.sinc</code> function.</p>
+<ul>
+<li>First, the DFT of a rectangular function has a main lobe,
+  centered about the <script type="math/tex">m = 0</script> point.
+  The peak amplitude of the main lobe is <script type="math/tex">K</script>.</li>
+</ul>
+<p>Plug <script type="math/tex">m = 0</script> into (3.36), it's easy to get <script type="math/tex">|X(0)| = K</script>.</p>
+<p>If use L'Hopital's rule</p>
+<p>
+<script type="math/tex; mode=display"> 
+\begin{align*}
+\lim \limits_{m \to 0}
+\frac{
+  \sin (πmK/N)
+}{
+  \sin (πm/N)
+} &=
+\lim \limits_{m \to 0}
+\frac{
+\cos (πmK/N) \cdot (πK/N)
+}{
+\cos (πm/N) \cdot (π/N)
+} \\
+&= K
+\end{align*} 
+</script>
+</p>
+<ul>
+<li>The next important thing to
+  notice about the Dirichlet kernel is the main lobe’s width.</li>
+</ul>
+<p>when <script type="math/tex">m = \pm \frac{N}{K}</script>, then <script type="math/tex">\frac{ \sin (πmK/N) }{ \sin (πm/N) } = 0</script>.</p>
+<p>So the main lobe width <script type="math/tex">2N/K</script>.</p>
               
             </div>
           </div><footer>
@@ -528,6 +1176,10 @@ True
 
   <div class="rst-versions" role="note" aria-label="Versions">
   <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/eroicaleo/dsp-guide" class="fa fa-code-fork" style="color: #fcfcfc"> Github</a>
+        </span>
     
     
       <span><a href="../udsp02ex/" style="color: #fcfcfc">&laquo; Previous</a></span>

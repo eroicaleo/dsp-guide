@@ -68,13 +68,43 @@
                 </li>
               </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">Understanding DSP Chapter 03 exercises</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Understanding DSP Chapter 03 exercises</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#31">3.1</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#32">3.2</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#33">3.3</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#34">3.4</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#35">3.5</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#36">3.6</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#37">3.7</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#38">3.8</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#39">3.9</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#310">3.10</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#311">3.11</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#312">3.12</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#313">3.13</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#315">3.15</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#316">3.16</a>
+    </li>
     </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../unresolved/">Unresolved</a>
                 </li>
               </ul>
       </div>
@@ -90,7 +120,7 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href=".." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Understanding DSP Chapter 03 exercises</li>
     <li class="wy-breadcrumbs-aside">
           <a href="https://github.com/eroicaleo/dsp-guide/blob/main/docs/udsp03ex.md" class="icon icon-github"> Edit on Github</a>
@@ -122,11 +152,581 @@ states that the spectrum analysis system’s input data sample rate,
 <p>(a) What is the number of necessary input time samples, <script type="math/tex">N</script>, for a 
 single DFT operation?</p>
 <p><strong>Solution</strong>:</p>
+<p>If we want to achieve <script type="math/tex">45</script> Hz, we know the DFT’s frequency spacing 
+(resolution) is <script type="math/tex">f_s/N</script>.</p>
+<p>So <script type="math/tex">f_s / N \leq 45</script>, then <script type="math/tex">N \geq 23</script>.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<p>(b) What do you tell the systems engineer regarding the spectrum 
+analysis system’s specifications?</p>
+<p><strong>Solution</strong>:</p>
+<p>The <script type="math/tex">f_s</script> needs to be <script type="math/tex">900</script> Hz.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="33">3.3</h2>
+<p>We want to compute an <script type="math/tex">N</script>-point DFT of a one-second-duration 
+compact disc (CD) audio signal <script type="math/tex">x(n)</script>, whose sample rate is
+<script type="math/tex">fs = 44.1</script> kHz, with a DFT sample spacing of <script type="math/tex">1</script> Hz.</p>
+<p>(a) What is the number of necessary <script type="math/tex">x(n)</script> time samples, <script type="math/tex">N</script>?</p>
+<p><strong>Solution</strong>: Again, we know the DFT’s frequency spacing 
+(resolution) is <script type="math/tex">f_s/N</script>. So</p>
+<p>
+<script type="math/tex; mode=display"> 
+\frac{f_s}{N} = \frac{44100}{N} = 1
+</script>
+</p>
+<p>Then <script type="math/tex">N = 441000</script>.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<p>(b) What is the time duration of the <script type="math/tex">x(n)</script> sequence measured in 
+seconds?
+Hint: This Part (b) of the problem is trickier than it first 
+appears. Think carefully.</p>
+<p><strong>Solution</strong>:</p>
+<p>It should be</p>
+<p>
+<script type="math/tex; mode=display"> 
+1 \text{ second} \cdot \frac{44100 - 1}{44100} \approx 0.99997732
+\text{ second}
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="34">3.4</h2>
+<p>Assume we have a discrete <script type="math/tex">x(n)</script> time-domain sequence of samples 
+obtained from lowpass sampling of an analog signal, <script type="math/tex">x(t)</script>.
+If <script type="math/tex">x(n)</script> contains <script type="math/tex">N = 500</script> samples, and it was obtained at a 
+sample rate of <script type="math/tex">f_s = 3000</script> Hz:</p>
+<p>(a) What is the frequency spacing of <script type="math/tex">x(n)</script>’s DFT samples, <script type="math/tex">X(m)</script>, 
+measured in Hz?</p>
+<p><strong>Solution</strong>:</p>
+<p>Again, it is</p>
+<p>
+<script type="math/tex; mode=display"> 
+\frac{f_s}{N} = \frac{3000}{500} = 6 \text{ Hz}
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<p>(b) What is the highest-frequency spectral component that can be 
+present in the analog <script type="math/tex">x(t)</script> signal where no aliasing errors occur 
+in <script type="math/tex">x(n)</script>?</p>
+<p><strong>Solution</strong>:</p>
+<p>The highest-frequency spectral component has to be <script type="math/tex">\leq \frac{f_s}
+{2}</script>.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<p>(c) If you drew the full <script type="math/tex">X(m)</script> spectrum and several of its 
+spectral replications, what is the spacing between the spectral 
+replications measured in Hz?</p>
+<p><strong>Solution</strong>:</p>
+<p>I am not exactly sure. Let's say the original signal has the
+frequency component of <script type="math/tex">1500 - 6 = 1494</script> Hz. Then the spacing
+between spectral replications is <script type="math/tex">(1500 + 6) - (1500-6) = 12</script> Hz.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="35">3.5</h2>
+<p>What are the magnitudes of the 8-point DFT samples of</p>
+<p>(a) the <script type="math/tex">x_1(n) = 9, 9, 9, 9, 9, 9, 9, 9</script> sequence (explain how 
+you arrived at your solution)?</p>
+<p><strong>Solution</strong>: We cannot apply the formula (3-17) because the
+input does not contain a sine wave.</p>
+<p>
+<script type="math/tex; mode=display"> 
+M_r = \frac{A_o N}{2}
+</script>
+</p>
+<p>So we have to directly use the FFT equation</p>
+<p>
+<script type="math/tex; mode=display"> 
+X(m) = \sum_{n = 0}^{N-1} x(n) e^{-j2πnm/N} \\
+= 9 \sum_{n = 0}^{N-1} e^{-j2πnm/N} \\
+=
+\begin{cases}
+    72 &\text{if } m = 0 \\
+    0 &\text{if } m \neq 0 \\
+\end{cases} 
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<p>(b) the <script type="math/tex">x_2(n) = 1, 0, 0, 0, 0, 0, 0, 0</script> sequence (explain how 
+you arrived at your solution)?</p>
+<p><strong>Solution</strong>:</p>
+<p>
+<script type="math/tex; mode=display"> 
+X(m) = \sum_{n = 0}^{N-1} x(n) e^{-j2πnm/N} \\
+= x(0) = 1
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<p>(c) the <script type="math/tex">x_3(n) = 0, 1, 0, 0, 0, 0, 0, 0</script> sequence (explain how 
+you arrived at your solution)?</p>
+<p>Because the <script type="math/tex">x_3(n)</script> sequence in Part (c) is merely a time-shifted 
+version of the <script type="math/tex">x_2(n)</script> sequence in Part (b), comment on the 
+relationship of the <script type="math/tex">|X_2(m)|</script> and <script type="math/tex">|X_3(m)|</script> DFT samples.</p>
+<p><strong>Solution</strong>:</p>
+<p>Note <script type="math/tex">x_3(n) = x_2(n-1)</script>, so</p>
+<p>
+<script type="math/tex; mode=display"> 
+X_3(m) = e^{-j2πm/8} X_2(m)
+</script>
+</p>
+<p>Then</p>
+<p>
+<script type="math/tex; mode=display"> 
+|X_3(m)| = |e^{-j2πm/8} X_2(m)| \\
+= |X_2(m)| = 1
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="36">3.6</h2>
+<p>Consider sampling exactly three cycles of a continuous <script type="math/tex">x(t)</script> 
+sinusoid resulting
+in an 8-point <script type="math/tex">x(n)</script> time sequence whose 8-point DFT is the
+<script type="math/tex">X(m)</script> shown in Figure P3–6. If the sample rate used to obtain
+<script type="math/tex">x(n)</script> was 4000 Hz, write the time-domain equation for the 
+discrete <script type="math/tex">x(n)</script> sinusoid in trigonometric 
+form. Show how you arrived at your answer.</p>
+<p><img alt="" src="../assets/ex0306.png" /></p>
+<p><strong>Solution</strong>:</p>
+<p>We can simply do a IDFT.
+Note that <script type="math/tex">A = 8, X(3) = A e^{j(π/4)}, X(5) = A e^{-j(π/4)}</script>
+</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{split}
+x(n) &= \frac{1}{N} \sum_{m = 0}^{N-1} X(m) e^{j2πmn/N} \\
+&= \frac{A}{8}
+(e^{j(π/4 + 6πn/8)} + e^{-j(π/4 + 6πn/8)}) \\
+&= \frac{A}{4}
+\cos (\frac{3n+1}{4} \pi) \\
+&= 2 \cos (\frac{3n+1}{4} \pi)
+\end{split}
+</script>
+</p>
+<p>The python code</p>
+<pre><code class="language-python">N = 8
+n = np.arange(0, 8, 1)
+A = 8
+x = (A/4) * np.cos ((3*n+1)/4 * np.pi)
+np.around(x, 4)
+
+array([ 1.4142, -2.    ,  1.4142,  0.    , -1.4142,  2.    , -1.4142, -0.    ])
+
+X = fft(x)
+np.around(X, 4)
+
+array([-0.    -0.j    , -0.    -0.j    , -0.    -0.j    ,  5.6569+5.6569j,
+        0.    -0.j    ,  5.6569-5.6569j, -0.    +0.j    , -0.    +0.j    ])
+</code></pre>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="37">3.7</h2>
+<p>In the text’s Section 3.1 we discussed the computations necessary 
+to compute the <script type="math/tex">X(0)</script> sample of an <script type="math/tex">N</script>-point DFT. That <script type="math/tex">X(0)</script> 
+output sample represents the zero Hz (DC) spectral component of an 
+<script type="math/tex">x(n)</script> input sequence. Because it is the DC component, <script type="math/tex">X(0)</script> is 
+real-only and we’re free to say that an <script type="math/tex">X(0)</script> sample always has 
+zero phase. With that said, here are two interesting DFT problems:</p>
+<p>(a) Given that an <script type="math/tex">N</script>-point DFT’s input sequence <script type="math/tex">x(n)</script> is 
+real-only, and <script type="math/tex">N</script> is an even number, is there any value for <script type="math/tex">m</script> 
+(other than <script type="math/tex">m = 0</script>) for which an <script type="math/tex">X(m)</script> DFT output sample is 
+always real-only?</p>
+<p><strong>Solution</strong></p>
+<p>
+<script type="math/tex; mode=display"> 
+X(m) = \sum_{n = 0}^{N-1} x(n) e^{-j2πnm/N} 
+</script>
+</p>
+<p>If <script type="math/tex">N</script> is an even number and <script type="math/tex">m = N / 2</script>, then</p>
+<p>
+<script type="math/tex; mode=display"> 
+e^{-j2πnm/N} = e^{-jπn} = \cos (πn) + i \sin (πn) = \pm 1
+</script>
+</p>
+<p>Then <script type="math/tex">X(N/2)</script> is real-only.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<p>(b) Given that <script type="math/tex">N</script> is an odd number, is there any value for <script type="math/tex">m</script> 
+(other than <script type="math/tex">m = 0</script>) where an <script type="math/tex">X(m)</script> DFT output sample is always 
+real-only?</p>
+<p><strong>Solution</strong>:</p>
+<p>From section 3.2, if that real input function is even, then <script type="math/tex">X(m)</script> 
+is always real and even.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="38">3.8</h2>
+<p>Using the following rectangular form for the DFT equation:</p>
+<p>
+<script type="math/tex; mode=display"> 
+X(m) = \sum_{n = 0}^{N-1} x(n) [\cos (2πnm/N) - j \sin(2πnm/N)] 
+</script>
+</p>
+<p>
+<script type="math/tex">N</script> is an even number, frequency <script type="math/tex">f_s</script> is the <script type="math/tex">x(n)</script> sequence’s sample 
+rate in Hz, time index <script type="math/tex">n = 0, 1, 2, ..., N–1</script>, and <script type="math/tex">θ</script> is an initial 
+phase angle measured in radians.
+Hint: Recall the trigonometric identity</p>
+<p>
+<script type="math/tex; mode=display">
+\sin(α+β) = \sin(α)\cos(β) + \cos(α)\sin(β)
+</script>.</p>
+<p>(a) Prove that the <script type="math/tex">f_s/2</script> spectral sample is <script type="math/tex">X(N/2) = N · \sin(θ)</script> 
+when the <script type="math/tex">x(n)</script> input is a sinusoidal sequence defined by</p>
+<p>
+<script type="math/tex; mode=display"> 
+x(n) = \sin[2π(f_s/2)nt_s + θ].
+</script>
+</p>
+<p><strong>Proof</strong>:</p>
+<p>First note that the original analog waveform frequency should be
+<script type="math/tex">f_s / 2</script>.</p>
+<p>Then note, when <script type="math/tex">m = N/2</script>, then</p>
+<p>
+<script type="math/tex; mode=display"> 
+\cos (2πnm/N) = \cos (n \pi) = \pm 1\\
+\sin (2πnm/N) = \sin (n \pi) = 0 \\
+</script>
+</p>
+<p>Then</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{split}
+X(N/2) &= x(0) - x(1) + \cdots + x(N-2) - x(N-1) \\
+&= \sin (0π + θ) - \sin (1π + θ) + \cdots + \sin ((N-2)π + θ) -
+\sin ((N-1)π + θ) \\
+&= N \sin (θ)    
+\end{split}
+</script>
+</p>
+<p>Note that this is also intuitively correct, when <script type="math/tex">θ = 0</script>, and
+we sample at <script type="math/tex">f_s</script> for a <script type="math/tex">f_s/2</script> sine wave, we can only get 0.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<p>(b) What is <script type="math/tex">X(N/2)</script> when <script type="math/tex">x(n) = \sin[2π(f_s/2)nt_s]</script>?</p>
+<p><strong>Solution</strong>: As mentioned in the end of part (a), it's 0.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<p>(c) What is <script type="math/tex">X(N/2)</script> when <script type="math/tex">x(n) = \cos[2π(f_s/2)nt_s]</script>?</p>
+<p><strong>Solution</strong>:</p>
+<p>Note <script type="math/tex">\cos t = \sin (t + π/2)</script>, so <script type="math/tex">θ = π/2</script>.</p>
+<p>
+<script type="math/tex; mode=display"> 
+X(N/2) = N \sin (θ) = N
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="39">3.9</h2>
+<p>To gain some practice in using the algebra of discrete signals and the 
+geometric series identities in Appendix B, and to reinforce our 
+understanding of the output magnitude properties of a DFT when its 
+input is an exact integer number of sinusoidal cycles:</p>
+<p>(a) Prove that when a DFT’s input is a complex sinusoid of magnitude
+<script type="math/tex">A_o</script> (i.e. <script type="math/tex">x(n) = e^{j2πfn t_s}</script>) with exactly three cycles over <script type="math/tex">N</script> 
+samples the output magnitude of the DFT’s
+<script type="math/tex">m = 3</script> bin will be <script type="math/tex">|X(3)| = A_o N</script>.</p>
+<p>Hint: The first step is to redefine <script type="math/tex">x(n)</script>’s <script type="math/tex">f</script> and <script type="math/tex">t_s</script> variables in 
+terms of a sample rate <script type="math/tex">f_s</script> and <script type="math/tex">N</script> so that <script type="math/tex">x(n)</script> has exactly three 
+cycles over <script type="math/tex">N</script> samples. The redefined <script type="math/tex">x(n)</script> is then applied to the 
+standard DFT equation.</p>
+<p><strong>Proof</strong>:</p>
+<p>Note that <script type="math/tex">N t_s f = 3</script>, so <script type="math/tex">f t_s = \frac{3}{N}</script>. Then</p>
+<p>
+<script type="math/tex; mode=display"> 
+e^{j2πfn t_s} = e^{j2π n 3 / N}
+</script>
+</p>
+<p>Then</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{split}
+X(m) &= A_o \sum_{n = 0}^{N-1} x(n) e^{-j2πnm/N} \\
+&= A_o \sum_{n = 0}^{N-1} e^{j2π n 3 / N} e^{-j2πnm/N} \\
+&= A_o \sum_{n = 0}^{N-1} e^{j2π (3-m) n / N} \\
+\end{split}
+</script>
+</p>
+<p>So when <script type="math/tex">m = 3</script>,</p>
+<p>
+<script type="math/tex; mode=display"> 
+X(3) = A_o \sum_{n = 0}^{N-1} e^{j2π 0 n / N}
+= A_o N
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<p>(b) Prove that when a DFT’s input is a real-only sinewave of peak 
+amplitude <script type="math/tex">A_o</script> (i.e., <script type="math/tex">x(n) = A_o \sin(2πfnt_s)</script>) with exactly three cycles over <script type="math/tex">N</script> samples, the
+output magnitude of the DFT’s <script type="math/tex">m=3</script> bin will be <script type="math/tex">|X(3)|= A_o N/2</script>.</p>
+<p>Hint: Once you redefine <script type="math/tex">x(n)</script>’s <script type="math/tex">f</script> and <script type="math/tex">t_s</script> variables in terms of a 
+sample rate <script type="math/tex">f_s</script> and <script type="math/tex">N</script> so that <script type="math/tex">x(n)</script> has exactly three cycles over 
+<script type="math/tex">N</script> samples, you must convert that real sinewave to complex exponential 
+form so that you can evaluate its DFT for <script type="math/tex">m = 3</script>.</p>
+<p><strong>Solution</strong>:</p>
+<p>Note</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{split}
+x(n) &= A_o \sin(2πfnt_s) \\
+&= A_o \frac{e^{j2πfn t_s} - e^{-j2πfn t_s}}{2j} \\
+&= A_o \frac{e^{j2πn 3 / N} - e^{-j2πn 3 / N}}{2j} \\
+\end{split}
+</script>
+</p>
+<p>So</p>
+<p>
+<script type="math/tex; mode=display"> 
+\begin{split}
+X(3) &= \sum_{n = 0}^{N-1} x(n) e^{-j2πn3/N} \\
+&= \frac{A_o}{2j} \sum_{n = 0}^{N-1} (e^{j2πn 0 / N} - e^{-j12πn / N}) \\
+&= \frac{A_o}{2j} \sum_{n = 0}^{N-1} (1 - e^{-j12πn / N})
+\end{split}
+</script>
+</p>
+<p>Now use results in Appendix B</p>
+<p>
+<script type="math/tex; mode=display"> 
+\sum_{n = 0}^{N-1} e^{-j12πn / N} =
+\frac{1 - e^{-j12π}}{1 - e^{-j12π / N}} \\
+= 0
+</script>
+</p>
+<p>So <script type="math/tex">X(3) = \frac{N A_o}{2j}</script>, so <script type="math/tex">|X(3)| = \frac{A_o N}{2}</script>.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="310">3.10</h2>
+<p>Consider performing the 5-point DFT on the following <script type="math/tex">x_1(n)</script> 
+time-domain samples</p>
+<p>
+<script type="math/tex; mode=display"> 
+x_1(n) = [1, 2.2, –4, 17, 21],
+</script>
+</p>
+<p>and the DFT’s first sample is <script type="math/tex">X_1(0) = 37.2</script>. Next, consider 
+performing the 5-point DFT on the following <script type="math/tex">x_2(n)</script> time samples</p>
+<p>
+<script type="math/tex; mode=display"> 
+x_2(n) = [1, 2.2, –4, 17, Q],
+</script>
+</p>
+<p>and that DFT’s first sample is <script type="math/tex">X_2(0) = 57.2</script>. What is the value 
+of <script type="math/tex">Q</script> in the <script type="math/tex">x_2(n)</script> time sequence? Justify your answer.</p>
+<p><strong>Solution</strong>:</p>
+<p>
+<script type="math/tex; mode=display"> 
+X(m) = \sum_{n = 0}^{N-1} x(n) e^{-j2πnm/N} 
+</script>
+</p>
+<p>So</p>
+<p>
+<script type="math/tex; mode=display"> 
+X(0) = \sum_{n = 0}^{N-1} x(n)
+</script>
+</p>
+<p>So <script type="math/tex">Q = 57.2 - (1 + 2.2 -4 +17) = 41</script>.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="311">3.11</h2>
+<p>Derive the equation describing <script type="math/tex">X(m)</script>, the <script type="math/tex">N</script>-point DFT of the following <script type="math/tex">x(n)</script> sequence:</p>
+<p>
+<script type="math/tex; mode=display"> 
+x(n) = a^n, \qquad \text{for} 0 \leq n \leq N-1.
+</script>
+</p>
+<p>Hint: Recall one of the laws of exponents, <script type="math/tex">p^bq^{bc} = (pq^c)^b</script>, and the geometric series identities in Appendix B.</p>
+<p><strong>Solution</strong>:</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{split}
+X(m) &= \sum_{n = 0}^{N-1} x(n) e^{-j2πnm/N} \\
+&= \sum_{n = 0}^{N-1} a^n e^{-j2πnm/N} \\
+&= \sum_{n = 0}^{N-1} (a e^{-j2πm/N})^n \\
+&= \frac{1 - a^N e^{-j2πm}}{1 - a e^{-j2πm/N}}
+\end{split}
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="312">3.12</h2>
+<p>Consider an N-sample <script type="math/tex">x(n)</script> time sequence whose DFT is represented by <script type="math/tex">X(m)</script>,
+where <script type="math/tex">0 \leq m \leq N–1</script>. Given this situation, an Internet website once stated,
+“The sum of the <script type="math/tex">X(m)</script> samples is equal to <script type="math/tex">N</script> times the first <script type="math/tex">x(n)</script> sample.” Being
+suspicious of anything we read on the Internet, show whether or not that
+statement is true.</p>
+<p>Hint: Use the inverse DFT process to determine the appropriate <script type="math/tex">x(n)</script> time
+sample of interest in terms of <script type="math/tex">X(m)</script>.</p>
+<p><strong>Solution</strong>:</p>
+<p>The IDFT shows</p>
+<p>
+<script type="math/tex; mode=display"> 
+x(n) = \frac{1}{N} \sum_{m = 0}^{N-1} X(m) e^{j2πmn/N} 
+</script>
+</p>
+<p>Plug <script type="math/tex">n = 0</script> into it</p>
+<p>
+<script type="math/tex; mode=display"> 
+x(0) = \frac{1}{N} \sum_{m = 0}^{N-1} X(m) e^{j2πm0/N} \\
+= \frac{1}{N} \sum_{m = 0}^{N-1} X(m) \\
+\Rightarrow \\
+\sum_{m = 0}^{N-1} X(m) = N x(0) \\
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="313">3.13</h2>
+<p>Here is a problem whose solution may be useful to you in the future. On the
+Internet you will find information suggesting that an inverse DFT can be
+computed using a forward DFT software routine in the process shown in Figure P3–13.</p>
+<p><img alt="" src="../assets/ex0313.png" /></p>
+<p>(a) Using the forward and inverse DFT equations, and the material in Appendix A,
+show why the process in Figure P3–13 computes correct inverse DFTs.</p>
+<p>Hint: Begin your solution by writing the inverse DFT equation and conjugating
+both sides of that equation.</p>
+<p><strong>Solution</strong>:</p>
+<p>
+<script type="math/tex; mode=display"> 
+x(n) = \frac{1}{N} \sum_{m = 0}^{N-1} X(m) e^{j2πmn/N} \\
+</script>
+</p>
+<p>Note that</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{split}
+\left( X(m) e^{j2πmn/N} \right)^* 
+&= X^*(m) e^{-j2πmn/N} \\
+&= (X_{\text{real}}(m) - X_{\text{imag}}(m)) e^{-j2πmn/N} \\
+\end{split}
+</script>
+</p>
+<p>We have to assume <script type="math/tex">X(m)</script> is symmetric. If so
+Then</p>
+<p>
+<script type="math/tex; mode=display"> 
+\sum_{m = 0}^{N-1} X_{\text{real}}(m) e^{-j2πmn/N}
+\quad
+\text{is real} \\
+\sum_{m = 0}^{N-1} X_{\text{imag}}(m) e^{-j2πmn/N}
+\quad
+\text{is pure imaginary} \\
+</script>
+</p>
+<p>So</p>
+<p>
+<script type="math/tex; mode=display"> 
+\frac{1}{N} \sum_{m = 0}^{N-1} X_{\text{real}}(m) e^{-j2πmn/N}
+= x_{\text{real}}(n) \\
+\frac{1}{N} \sum_{m = 0}^{N-1} X_{\text{imag}}(m) e^{-j2πmn/N}
+= x_{\text{imag}}(n) \\
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<p>(b) Comment on how the process in Figure P3–13 changes if the 
+original frequency-domain <script type="math/tex">X(m)</script> sequence is conjugate symmetric.</p>
+<p><strong>Solution</strong>:</p>
+<p>Then there will be no <script type="math/tex">x_{\text{imag}}(n)</script>, only
+<script type="math/tex">x_{\text{real}}(n)</script> left.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="315">3.15</h2>
+<p>Here is a real-world spectrum analysis problem. Figure P3–15(a) shows 902
+samples of an <script type="math/tex">x(n)</script> time sequence. (For clarity, we do not show the <script type="math/tex">x(n)</script> sam-
+ples as individual dots.) That sequence is the sound of the “A3” note (“A”
+below middle “C”) from an acoustic guitar, sampled at <script type="math/tex">f_s = 22.255 kHz</script>. Figure
+P3–15(b) shows the <script type="math/tex">X(m)</script> spectral magnitude samples, the DFT of <script type="math/tex">x(n)</script>, on a
+linear scale for the frequency index range of <script type="math/tex">0 \leq m \leq 59</script>.</p>
+<p>(a) Based on the <script type="math/tex">X(m)</script> samples, what is the fundamental frequency, in Hz, of
+the guitar’s “A3” note?</p>
+<p><strong>Solution</strong></p>
+<p>
+<script type="math/tex; mode=display"> 
+f_o = \frac{m}{N} f_s = \frac{9}{902} 22.255 \approx 222.06 Hz
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<p>(b) When we plot the DFT magnitude samples on a logarithmic scale, as in
+Figure P3–15(c), we see spectral harmonics and learn that the guitar note is
+rich in spectral content. (The harmonics are integer multiples of the fun-
+damental frequency.) That’s why guitars have their pleasing sound, de-
+pending on the guitarist’s skill, of course. What is the frequency of the
+highest nonzero spectral component of the guitar’s “A3” note?</p>
+<p><strong>Solution</strong></p>
+<p>It's</p>
+<p>
+<script type="math/tex; mode=display"> 
+f_o = \frac{2m}{N} f_s = \frac{18}{902} \times 22.255 \approx 444.11 Hz
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<p><img alt="" src="../assets/ex0315.png" /></p>
+<h2 id="316">3.16</h2>
+<p>Figure P3–16(a) shows a 16-point Hanning window sequence, <script type="math/tex">h_1(n)</script>, defined by</p>
+<p>
+<script type="math/tex; mode=display"> 
+h_1(n) = 0.5 - 0.5 \cos (\frac{2 \pi n}{16}), \quad\text{for } n = 0,1,2,\cdots ,
+</script>
+</p>
+<p>The magnitude of its DFT samples, <script type="math/tex">|H_1(m)|</script>, is shown in Figure P3–16(b).
+(For simplicity, we show only the positive-frequency range of the <script type="math/tex">|H_1(m)|</script>
+samples.) Notice that only the <script type="math/tex">|H_1(0)|</script> and the <script type="math/tex">|H_1(1)|</script> frequency-domain
+samples are nonzero.</p>
+<p>(a) Sequence <script type="math/tex">h_1(n)</script> comprises two signals. Looking carefully at <script type="math/tex">h_1(n)</script>, describe
+what those two signals are and justify why <script type="math/tex">|H_1(m)|</script> looks the way it does.</p>
+<p><strong>Solution</strong>:</p>
+<p>One is the DC component, the other is <script type="math/tex">\frac{1}{16} f_s</script> component.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<p>(b) Given your understanding of the relationship between <script type="math/tex">h_1(n)</script> and <script type="math/tex">|H_1(m)|</script>,
+look at <script type="math/tex">h_2(n)</script>, in Figure P3–16(c), which is two repetitions of the original
+<script type="math/tex">h_1(n)</script> sequence. Draw a rough sketch of the spectral magnitude sequence
+<script type="math/tex">|H_2(m)|</script> over its positive-frequency range.</p>
+<p><strong>Solution</strong>:</p>
+<p>Because <script type="math/tex">h_2(n) = h_1(n)</script>.</p>
+<p>
+<script type="math/tex; mode=display"> 
+h_2(n) = h_1(n) = 0.5 - 0.5 \cos (\frac{2 \pi n}{16}) \\
+= 0.5 - 0.5 \cos (2 \pi n \frac{2}{32})
+</script>
+</p>
+<p>So the </p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href="../udsp03/" class="btn btn-neutral float-left" title="Understanding DSP Chapter 03"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../unresolved/" class="btn btn-neutral float-right" title="Unresolved">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -148,9 +748,15 @@ single DFT operation?</p>
   <div class="rst-versions" role="note" aria-label="Versions">
   <span class="rst-current-version" data-toggle="rst-current-version">
     
+        <span>
+          <a href="https://github.com/eroicaleo/dsp-guide" class="fa fa-code-fork" style="color: #fcfcfc"> Github</a>
+        </span>
+    
     
       <span><a href="../udsp03/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
+    
+      <span><a href="../unresolved/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
