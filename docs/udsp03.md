@@ -923,3 +923,53 @@ e^{j(2πm/N)(n_o - (K-1)/2)}
 $$
 
 See the `ch03.ipynb` section 3.13 for an example to plot with `scipy.fft`.
+Here is a summary:
+
+```python
+n = np.arange(-17, 19)  # 36 samples: -17, ..., 18
+x = np.where((n >= -3) & (n <= 5), 1.0, 0.0)
+N = n.size
+
+X = fft(x, N)
+# DFT is N-periodic in k: X[k] = X[k mod N] for any integer k
+k = np.arange(-21, 22)
+X_mag = np.abs(X[np.mod(k, N)])
+
+X_mag_eq = np.abs(np.sinc(k*9/N)/np.sinc(k/N) * 9)
+np.allclose(X_mag_eq, X_mag)
+```
+
+Note we verify it with `np.sinc` function.
+
+* First, the DFT of a rectangular function has a main lobe,
+  centered about the $m = 0$ point.
+  The peak amplitude of the main lobe is $K$.
+
+Plug $m = 0$ into (3.36), it's easy to get $|X(0)| = K$.
+
+If use L'Hopital's rule
+
+$$ 
+\begin{align*}
+\lim \limits_{m \to 0}
+\frac{
+  \sin (πmK/N)
+}{
+  \sin (πm/N)
+} &=
+\lim \limits_{m \to 0}
+\frac{
+\cos (πmK/N) \cdot (πK/N)
+}{
+\cos (πm/N) \cdot (π/N)
+} \\
+&= K
+\end{align*} 
+$$
+
+* The next important thing to
+  notice about the Dirichlet kernel is the main lobe’s width.
+
+when $m = \pm \frac{N}{K}$, then $\frac{ \sin (πmK/N) }{ \sin (πm/N) } = 0$.
+
+So the main lobe width $2N/K$.
