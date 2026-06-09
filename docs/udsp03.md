@@ -973,3 +973,36 @@ $$
 when $m = \pm \frac{N}{K}$, then $\frac{ \sin (πmK/N) }{ \sin (πm/N) } = 0$.
 
 So the main lobe width $2N/K$.
+
+One note about the implementation in `numpy`. If we want to produce
+a sequence of $1$ with $-4 \leq n \leq 6$, we can do the following 2
+ways, the $-4 \leq n < 0$ part has to wrap around.
+
+```python
+n = np.arange(-32, 32)  # 64 samples: -32, ..., 31
+x = np.where((n >= 28) | (n <= -26), 1.0, 0.0)
+print(x)
+
+n = np.arange(0, 64)  # 64 samples: -32, ..., 31
+x = np.where((60 <= n) | (n <= +6), 1.0, 0.0)
+print(x)
+
+N = n.size
+X = fft(x, N)
+k = n
+print(k.size)
+K = 11
+
+X_math = np.zeros(N, dtype=complex)
+for i in n:
+    for k in n:
+        X_math[i] = X_math[i] + x[k] * (np.cos(-2*np.pi*k*i/N) + 1j*np.sin(-2*np.pi*k*i/N))
+
+X_math_2 = np.zeros(N, dtype=complex)
+for i in n:
+    X_math_2[i] = 0 + 0*1j
+    X_math_2[i] = np.exp((1j)*2*np.pi*i/N*(4-(K-1)/2)) * (np.sinc(i*K/N)/np.sinc(i/N) * K)
+
+print(f'np.allclose(X_math, X): {np.allclose(X_math, X)}')
+print(f'np.allclose(X_math_2, X): {np.allclose(X_math_2, X)}')
+```
