@@ -1153,15 +1153,28 @@ np.allclose(X_mag_eq, X_mag)
 <p>One note about the implementation in <code>numpy</code>. If we want to produce
 a sequence of <script type="math/tex">1</script> with <script type="math/tex">-4 \leq n \leq 6</script>, we can do the following 2
 ways, the <script type="math/tex">-4 \leq n < 0</script> part has to wrap around.</p>
+<ul>
+<li>Method 1:</li>
+</ul>
 <pre><code class="language-python">n = np.arange(-32, 32)  # 64 samples: -32, ..., 31
 x = np.where((n &gt;= 28) | (n &lt;= -26), 1.0, 0.0)
 print(x)
-
-n = np.arange(0, 64)  # 64 samples: -32, ..., 31
+</code></pre>
+<ul>
+<li>Method 2:</li>
+</ul>
+<pre><code class="language-python">n = np.arange(0, 64)  # 64 samples: -32, ..., 31
 x = np.where((60 &lt;= n) | (n &lt;= +6), 1.0, 0.0)
 print(x)
-
-N = n.size
+</code></pre>
+<ul>
+<li>Method 3 (probably more nature):</li>
+</ul>
+<pre><code class="language-python">n = np.arange(-32, 32)  # 64 samples: -32, ..., 31
+x_for_fft = np.where((n &gt;= -4) &amp; (n &lt;= 6), 1.0, 0.0)
+x_for_fft = np.roll(x_for_fft, -32)
+</code></pre>
+<pre><code class="language-python">N = n.size
 X = fft(x, N)
 k = n
 print(k.size)

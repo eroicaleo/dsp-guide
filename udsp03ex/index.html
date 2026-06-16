@@ -100,6 +100,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#316">3.16</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#317">3.17</a>
+    </li>
     </ul>
                 </li>
               </ul>
@@ -386,7 +388,8 @@ Hint: Recall the trigonometric identity</p>
 <p>
 <script type="math/tex; mode=display">
 \sin(α+β) = \sin(α)\cos(β) + \cos(α)\sin(β)
-</script>.</p>
+</script>
+</p>
 <p>(a) Prove that the <script type="math/tex">f_s/2</script> spectral sample is <script type="math/tex">X(N/2) = N · \sin(θ)</script> 
 when the <script type="math/tex">x(n)</script> input is a sinusoidal sequence defined by</p>
 <p>
@@ -701,6 +704,7 @@ h_1(n) = 0.5 - 0.5 \cos (\frac{2 \pi n}{16}), \quad\text{for } n = 0,1,2,\cdots 
 (For simplicity, we show only the positive-frequency range of the <script type="math/tex">|H_1(m)|</script>
 samples.) Notice that only the <script type="math/tex">|H_1(0)|</script> and the <script type="math/tex">|H_1(1)|</script> frequency-domain
 samples are nonzero.</p>
+<p><img src="./assets/ex0316.png" width="500" /></p>
 <p>(a) Sequence <script type="math/tex">h_1(n)</script> comprises two signals. Looking carefully at <script type="math/tex">h_1(n)</script>, describe
 what those two signals are and justify why <script type="math/tex">|H_1(m)|</script> looks the way it does.</p>
 <p><strong>Solution</strong>:</p>
@@ -720,7 +724,110 @@ h_2(n) = h_1(n) = 0.5 - 0.5 \cos (\frac{2 \pi n}{16}) \\
 = 0.5 - 0.5 \cos (2 \pi n \frac{2}{32})
 </script>
 </p>
-<p>So the </p>
+<p>So it is</p>
+<p>
+<script type="math/tex; mode=display"> 
+|H_2(m)| =
+\begin{cases}
+    16 &\text{if } m = 0 \\
+    8 &\text{if } m = 2\\
+    0 &\text{otherwise }\\
+\end{cases} 
+</script>
+</p>
+<p>Confirmed with plot here:</p>
+<p><img src="./assets/ex0316b.png" width="300" /></p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<hr />
+<p>(c) Given that the <script type="math/tex">h_3(n)</script> in Figure P3–16(d) is three
+repetitions of the original
+<script type="math/tex">h_1(n)</script> sequence, draw the spectral magnitude sequence
+<script type="math/tex">|H_3(m)|</script> over its positive-frequency range.</p>
+<p><strong>Proof</strong>:</p>
+<p>
+<script type="math/tex; mode=display"> 
+h_3(n) = h_1(n) = 0.5 - 0.5 \cos (\frac{2 \pi n}{16}) \\
+= 0.5 - 0.5 \cos (2 \pi n \frac{3}{48})
+</script>
+</p>
+<p>
+<script type="math/tex; mode=display"> 
+|H_3(m)| =
+\begin{cases}
+    24 &\text{if } m = 0 \\
+    12 &\text{if } m = 3\\
+    0 &\text{otherwise }\\
+\end{cases} 
+</script>
+</p>
+<p>Confirmed with plot here:</p>
+<p><img src="./assets/ex0316c.png" width="300" /></p>
+<p>(d) Considering the <script type="math/tex">h_1(n)</script>, <script type="math/tex">h_2(n)</script>, and <script type="math/tex">h_3(n)</script> sequences, and
+their <script type="math/tex">|H_1(m)|</script>, <script type="math/tex">|H_2(m)|</script>, and <script type="math/tex">|H_3(m)|</script> spectral magnitude samples,
+complete the following important statement:
+"<script type="math/tex">K</script> repetitions of an <script type="math/tex">h_1(n)</script> sequence result in an
+extended-length time sequence whose spectral magnitudes have <script type="math/tex">K–1</script> ..."</p>
+<p><strong>Solution</strong>:</p>
+<p>It should be "<script type="math/tex">K</script> repetitions of an <script type="math/tex">h_1(n)</script> sequence result in an
+extended-length time sequence whose spectral magnitudes have <script type="math/tex">K–1</script> zeros
+between the DC component of the first nonzero component".</p>
+<p>More complete answers from Opus 4.8:</p>
+<p>"<script type="math/tex">K</script> repetitions of an <script type="math/tex">h_1(n)</script> sequence result in an extended-length time sequence 
+whose spectral magnitudes have <script type="math/tex">K-1</script> zero-valued samples between each pair of 
+consecutive nonzero spectral samples."</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="317">3.17</h2>
+<p>In the literature of DSP, you may see an alternate expression for an N-point
+Hanning window defined by</p>
+<p>
+<script type="math/tex; mode=display"> 
+w_{\text{han,alt}} =
+\sin ^2 \left( 
+\frac{\pi n}{N}
+ \right), \text{ for } n = 0, 1, 2, \cdots, N-1
+</script>
+</p>
+<p>Prove that the above alternate expression for a Hanning window is equiva-
+lent to the Section 3.9 text’s definition of a Hanning window.</p>
+<p><strong>Proof</strong>:</p>
+<p>Section 3.9 defines Hanning window as</p>
+<p>
+<script type="math/tex; mode=display"> 
+w(n) = 0.5 - 0.5 \cos \left( 
+\frac{2 \pi n}{N}
+ \right),
+\text{ for } n = 0, 1, 2, \cdots, N-1
+</script>
+</p>
+<p>We will use the Trigonometric Identities</p>
+<p>
+<script type="math/tex; mode=display"> 
+\cos A - \cos B = - 2 \sin \frac{A+B}{2} \sin \frac{A-B}{2}
+</script>
+</p>
+<p>And note <script type="math/tex">1 = \cos 0</script>.</p>
+<p>So</p>
+<p>
+<script type="math/tex; mode=display"> 
+\begin{align*}
+w(n) &= 0.5 - 0.5 \cos \left( 
+\frac{2 \pi n}{N}
+ \right) \\
+ &= 0.5 (\cos 0 - \cos \frac{2 \pi n}{N}) \\
+ &= - \sin (-\frac{ \pi n}{N}) \sin (\frac{ \pi n}{N}) \\
+ &= \sin ^2 \left( 
+\frac{\pi n}{N}
+ \right)
+\end{align*} 
+</script>
+</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
               
             </div>
           </div><footer>
