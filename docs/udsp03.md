@@ -978,15 +978,31 @@ One note about the implementation in `numpy`. If we want to produce
 a sequence of $1$ with $-4 \leq n \leq 6$, we can do the following 2
 ways, the $-4 \leq n < 0$ part has to wrap around.
 
+* Method 1:
+
 ```python
 n = np.arange(-32, 32)  # 64 samples: -32, ..., 31
 x = np.where((n >= 28) | (n <= -26), 1.0, 0.0)
 print(x)
+```
 
+* Method 2:
+
+```python
 n = np.arange(0, 64)  # 64 samples: -32, ..., 31
 x = np.where((60 <= n) | (n <= +6), 1.0, 0.0)
 print(x)
+```
 
+* Method 3 (probably more nature):
+
+```python
+n = np.arange(-32, 32)  # 64 samples: -32, ..., 31
+x_for_fft = np.where((n >= -4) & (n <= 6), 1.0, 0.0)
+x_for_fft = np.roll(x_for_fft, -32)
+```
+
+```python
 N = n.size
 X = fft(x, N)
 k = n

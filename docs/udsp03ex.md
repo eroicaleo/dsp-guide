@@ -289,7 +289,7 @@ Hint: Recall the trigonometric identity
 
 $$
 \sin(α+β) = \sin(α)\cos(β) + \cos(α)\sin(β)
-$$.
+$$
 
 (a) Prove that the $f_s/2$ spectral sample is $X(N/2) = N · \sin(θ)$ 
 when the $x(n)$ input is a sinusoidal sequence defined by
@@ -634,6 +634,8 @@ The magnitude of its DFT samples, $|H_1(m)|$, is shown in Figure P3–16(b).
 samples.) Notice that only the $|H_1(0)|$ and the $|H_1(1)|$ frequency-domain
 samples are nonzero.
 
+<img src="./assets/ex0316.png" width="500" />
+
 (a) Sequence $h_1(n)$ comprises two signals. Looking carefully at $h_1(n)$, describe
 what those two signals are and justify why $|H_1(m)|$ looks the way it does.
 
@@ -657,4 +659,118 @@ h_2(n) = h_1(n) = 0.5 - 0.5 \cos (\frac{2 \pi n}{16}) \\
 = 0.5 - 0.5 \cos (2 \pi n \frac{2}{32})
 $$
 
-So the 
+So it is
+
+$$ 
+|H_2(m)| =
+\begin{cases}
+    16 &\text{if } m = 0 \\
+    8 &\text{if } m = 2\\
+    0 &\text{otherwise }\\
+\end{cases} 
+$$
+
+Confirmed with plot here:
+
+<img src="./assets/ex0316b.png" width="300" />
+
+$\square$
+
+---
+
+(c) Given that the $h_3(n)$ in Figure P3–16(d) is three
+repetitions of the original
+$h_1(n)$ sequence, draw the spectral magnitude sequence
+$|H_3(m)|$ over its positive-frequency range.
+
+**Proof**:
+
+$$ 
+h_3(n) = h_1(n) = 0.5 - 0.5 \cos (\frac{2 \pi n}{16}) \\
+= 0.5 - 0.5 \cos (2 \pi n \frac{3}{48})
+$$
+
+$$ 
+|H_3(m)| =
+\begin{cases}
+    24 &\text{if } m = 0 \\
+    12 &\text{if } m = 3\\
+    0 &\text{otherwise }\\
+\end{cases} 
+$$
+
+Confirmed with plot here:
+
+<img src="./assets/ex0316c.png" width="300" />
+
+(d) Considering the $h_1(n)$, $h_2(n)$, and $h_3(n)$ sequences, and
+their $|H_1(m)|$, $|H_2(m)|$, and $|H_3(m)|$ spectral magnitude samples,
+complete the following important statement:
+"$K$ repetitions of an $h_1(n)$ sequence result in an
+extended-length time sequence whose spectral magnitudes have $K–1$ ..."
+
+**Solution**:
+
+It should be "$K$ repetitions of an $h_1(n)$ sequence result in an
+extended-length time sequence whose spectral magnitudes have $K–1$ zeros
+between the DC component of the first nonzero component".
+
+More complete answers from Opus 4.8:
+
+"$K$ repetitions of an $h_1(n)$ sequence result in an extended-length time sequence 
+whose spectral magnitudes have $K-1$ zero-valued samples between each pair of 
+consecutive nonzero spectral samples."
+
+$\square$
+
+
+## 3.17
+
+In the literature of DSP, you may see an alternate expression for an N-point
+Hanning window defined by
+
+$$ 
+w_{\text{han,alt}} =
+\sin ^2 \left( 
+\frac{\pi n}{N}
+ \right), \text{ for } n = 0, 1, 2, \cdots, N-1
+$$
+
+Prove that the above alternate expression for a Hanning window is equiva-
+lent to the Section 3.9 text’s definition of a Hanning window.
+
+**Proof**:
+
+Section 3.9 defines Hanning window as
+
+$$ 
+w(n) = 0.5 - 0.5 \cos \left( 
+\frac{2 \pi n}{N}
+ \right),
+\text{ for } n = 0, 1, 2, \cdots, N-1
+$$
+
+We will use the Trigonometric Identities
+
+$$ 
+\cos A - \cos B = - 2 \sin \frac{A+B}{2} \sin \frac{A-B}{2}
+$$
+
+And note $1 = \cos 0$.
+
+So
+
+$$ 
+\begin{align*}
+w(n) &= 0.5 - 0.5 \cos \left( 
+\frac{2 \pi n}{N}
+ \right) \\
+ &= 0.5 (\cos 0 - \cos \frac{2 \pi n}{N}) \\
+ &= - \sin (-\frac{ \pi n}{N}) \sin (\frac{ \pi n}{N}) \\
+ &= \sin ^2 \left( 
+\frac{\pi n}{N}
+ \right)
+\end{align*} 
+$$
+
+$\square$
