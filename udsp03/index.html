@@ -118,6 +118,8 @@
         <ul>
     <li class="toctree-l4"><a class="reference internal" href="#the-definition-of-dtft">The definition of DTFT</a>
     </li>
+    <li class="toctree-l4"><a class="reference internal" href="#cft-dtft-and-dft-from-ai">CFT, DTFT and DFT from AI</a>
+    </li>
         </ul>
     </li>
         </ul>
@@ -898,6 +900,31 @@ plt.show()
 <li>The rule by which we must live is: To realize <script type="math/tex">F_{res}</script> Hz spectral resolution, we must collect
   <script type="math/tex">1/F_{res}</script> seconds, worth of nonzero time samples for our DFT processing.</li>
 </ul>
+<h4 id="cft-dtft-and-dft-from-ai">CFT, DTFT and DFT from AI</h4>
+<ul>
+<li>CFT</li>
+</ul>
+<p>
+<script type="math/tex; mode=display"> 
+X_c(f) = \int_{-\infty}^{\infty } x(t) e^{-j 2 \pi ft} dt
+</script>
+</p>
+<ul>
+<li>DTFT</li>
+</ul>
+<p>
+<script type="math/tex; mode=display"> 
+X_{\text{DTFT}} = \sum_{n = -\infty}^{\infty} x[n] e^{-j 2 \pi f (nT_s)}
+</script>
+</p>
+<ul>
+<li>DFT</li>
+</ul>
+<p>
+<script type="math/tex; mode=display"> 
+X(m) = \sum_{n = 0}^{N-1} x[n] e^{-j 2 \pi mn/N}
+</script>
+</p>
 <h2 id="312-dft-processing-gain">3.12 DFT PROCESSING GAIN</h2>
 <ul>
 <li>
