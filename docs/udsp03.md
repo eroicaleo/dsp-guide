@@ -731,6 +731,26 @@ plt.show()
 * The rule by which we must live is: To realize $F_{res}$ Hz spectral resolution, we must collect
   $1/F_{res}$ seconds, worth of nonzero time samples for our DFT processing.
 
+#### CFT, DTFT and DFT from AI
+
+* CFT
+
+$$ 
+X_c(f) = \int_{-\infty}^{\infty } x(t) e^{-j 2 \pi ft} dt
+$$
+
+* DTFT
+
+$$ 
+X_{\text{DTFT}} = \sum_{n = -\infty}^{\infty} x[n] e^{-j 2 \pi f (nT_s)}
+$$
+
+* DFT
+
+$$ 
+X(m) = \sum_{n = 0}^{N-1} x[n] e^{-j 2 \pi mn/N}
+$$
+
 ## 3.12 DFT PROCESSING GAIN
 
 * Learning Objective for this section

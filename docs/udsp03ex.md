@@ -774,3 +774,180 @@ w(n) &= 0.5 - 0.5 \cos \left(
 $$
 
 $\square$
+
+## 3.18
+
+Considering the DFT of an $N$-point $x(n)$ sequence,
+what is the spectral effect
+of zero-padding the $x(n)$ sequence to a length of $Q$
+samples (with $Q$ being an
+integer power of two, and $Q > N$)
+and performing a $Q$-point DFT on the zero-padded sequence?
+
+**Solution**:
+
+Assume $x(n)$ has a component for
+
+$$ 
+\frac{m}{N} f_s
+$$
+
+Then if we zero padded to $Q$ samples, then $Q$-point DFT have at
+
+$$ 
+k = \frac{mQ}{N}
+$$
+
+---
+
+Here is the answer from AI:
+
+Zero-padding an N-point sequence to Q points and taking a Q-point DFT has two key effects:
+
+What it does — spectral interpolation: The bin spacing shrinks from $f_s/N$ to $f_s/Q$, giving more DFT samples of the same underlying DTFT. The spectrum looks smoother and more detailed. A component at bin $m$ shifts to bin $k = mQ/N$.
+
+What it does NOT do — resolution is unchanged: Two sinusoids closer than $f_s/N$ apart still cannot be separated. True frequency resolution is determined by $N$ (the amount of real data), not $Q$.
+
+See also the `3.18` in `ex03.ipynb`.
+
+$\square$
+
+## 3.19
+
+Assume that an $N$-point DFT, performed on an $N$-sample $x(n)$ time-domain
+sequence, results in a DFT frequency-domain sample spacing of $100$ Hz. What
+would be the DFT frequency-domain sample spacing in Hz if the $N$-sample
+$x(n)$ time sequence was padded with 4$N$ zero-valued samples and we per-
+formed a DFT on that extended-time sequence?
+
+**Solution**:
+
+Since the number of sample increases from $N$ to $N + 4N = 5N$, the
+frequency-domain sample spacing becomes
+
+$$
+\begin{align*}
+\frac{f_s}{5N} &=
+\frac{1}{5} \frac{f_s}{N} \\
+&= 100 / 5 \\
+&= 20 Hz
+\end{align*}  
+$$
+
+$\square$
+
+## 3.20
+
+There is a program, in the U.S. and other countries, called “Search for Ex-
+traterrestrial Intelligence” (SETI). These folk point radio antennas around in
+the night sky searching for “nonrandom radio” signals, hoping to find evidence of “little green men.”
+They search for radio-frequency (RF) signal energy that significantly exceeds the
+background RF noise energy in the sky.
+Their primary method for detecting low-level RF energy is to tune a narrow-
+band receiver to some RF frequency and collect millions of time-domain sam-
+ples, and then perform million-point DFTs in the hope of finding spectral
+magnitude components that significantly exceed the background spectral
+noise. High-level spectral components would indicate the existence of intelli-
+gent life that’s broadcasting radio signals of some sort.
+Here’s the question: If a SETI researcher collects one million time sam-
+ples and performs a one-million-point DFT, roughly what DFT processing
+gain (in dB) improvement can that person expect to achieve in pulling a weak
+spectral component up above the background galactic spectral noise in comparison to using a 100-point DFT?
+
+**Solution**:
+
+Since the $DFT$ amplitude is proportional to $N$, then the processing gain
+is
+
+$$ 
+20 \log_{10} \frac{1000000/\sqrt[]{1000000}}{100/\sqrt[]{100}} = 20 \log_{10} \frac{1000}{10} = 40 \text{ dB}.
+$$
+
+$\square$
+
+## 3.21
+
+This problem tests your understanding of the DFT’s frequency-domain axis.
+Consider sampling exactly two cycles of an analog $x(t)$ cosine wave resulting
+in the $8$-point $x_1(n)$ time sequence in Figure P3–21(a). The real part of the DFT
+of $x_1(n)$ is the sequence shown in Figure P3–21(b). Because $x_1(n)$ is exactly two
+cycles of a cosine sequence, the imaginary parts of $X_1(m)$ are all zero-valued
+samples, making $|X_1(m)|$ equal to the real part of $X_1(m)$. (Note that no leak-
+age is apparent in $|X_1(m)|$.) Think, now, of a new frequency-domain se-
+quence $X_2(m)$ that is equal to $X_1(m)$ with eight zero-valued samples, the white
+squares in Figures P3–21(c) and P3–21(d), inserted in the center of the real
+and imaginary parts of $X_1(m)$.
+
+<img src="./assets/ex0321a.png" width="500" />
+
+(a) Draw the $x_2(n)$ time sequence that is the inverse DFT of $X_2(m)$.
+
+**Solution**:
+
+Here is the code to draw $x_2(n)$.
+
+```python
+N = 16
+n = np.arange(N)
+X = np.where((n == 2) | (n == 14), 1, 0)
+x = np.real(ifft(X))
+plt.plot(n, x)
+```
+
+And here is the result
+
+<img src="./assets/ex0321b.png" width="500" />
+
+(b) Comment on how the $x_2(n)$ time sequence is related to the original analog
+$x(t)$ signal and the $x_1(n)$ sequence.
+
+**Solution**:
+
+$x_2(n)$ is sampling the original analog $x(t)$ signal with double the sampling frequency.
+
+The relation between $x_1(n)$ and $x_2(n)$ is
+
+$$ 
+x_1(n) = x_2(2n), n = 0, \cdots, 7
+$$
+
+---
+
+I have some confusion about why we cannot use the same $f_s$ to sample a $y(t)$ is half the frequency?
+
+Then $x_2(n)$ and the $X_2(m)$ would be the same.
+
+Here is some answers from Opus-4.8
+
+**Why that picture is physically false**
+
+The decisive point: we never collected any new data. We had 8 real 
+samples. We took their spectrum $X_1(m)$, mathematically inserted zeros, 
+and inverse-transformed. No antenna went back out and gathered 16 samples.
+
+* You cannot "sample 2X the data" by typing zeros into an array — that 
+would be manufacturing information you don't have.
+* The inserted values are **zeros in the frequency domain** = no new 
+  spectral content. That's the signature of resampling existing data, not 
+  measuring new data.
+
+So the 16 numbers can only be a denser representation of the same 8 
+samples over the same time window → same duration, double the sample 
+rate, same analog $x(t)$. That's interpolation.
+
+**The subtle part: the numbers are identical either way**
+
+Here's what makes your reading tempting. The sequence $x_2(n) = \cos(\pi n/4)$ is just a list of 16 numbers. Those numbers are the same whether you call them:
+
+* (A, correct): the $f_s/4$ signal sampled at rate $2f_s$, or
+* (B, yours): an $f_s/8$ (half-freq) signal sampled at rate $f_s$.
+
+The arithmetic can't distinguish them — only the physical setup can. And the setup is fixed: we manipulated the spectrum of one specific signal, the original $x(t)$. Part (b) literally asks how $x_2$ relates to that $x(t)$. Interpretation B invents a different analog signal that was never in the problem; interpretation A keeps $x(t)$ and explains $x_2$ as its interpolation — which is why $x_1(n) = x_2(2n)$ falls out (the original samples survive at the even indices, untouched).
+
+One-line test you can keep: zero-stuffing in frequency adds no information, so it can only interpolate existing data (more samples, same span, higher rate) — it can never extend it (more span at the same rate), because extending would require data you never collected.
+
+So the corrected statement: frequency-domain zero-stuffing can interpolate (new sample values, no new information) but can't extend the observation window (which would require new information the original samples don't contain). Your "$2f_s$ collects new data" is true for the values, but those values were already implied — which is exactly why the DFT could manufacture them for free.
+
+This is also the mirror image of 3.18/3.19: there, zero-padding in time interpolates the spectrum (more bins, no new resolution); here, zero-stuffing in frequency interpolates the time signal (more samples, no new information). Same principle, axes swapped.
+
+$\square$
