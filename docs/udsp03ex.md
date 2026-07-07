@@ -582,6 +582,33 @@ $x_{\text{real}}(n)$ left.
 
 $\square$
 
+## 3.14
+
+One useful way to test the performance of commercial analog-to-digital
+(A/D) converters is to digitize an $f_o$ Hz analog sinewave, apply the 
+$N$-sample $x(n)$ sequence to a DFT, and examine the DFT’s $X(m)$ 
+results. The process is
+depicted in Figure P3–14. An ideal (A/D) converter will produce
+$X(m)$ results showing spectral energy at $f_o$ Hz and no spectral 
+energy at any other frequency. As such, nonzero spectral energy in
+$X(m)$ at frequencies other than $f_o$ Hz indicates real-world A/D 
+converter performance. However, the DFT’s inherent property of leakage 
+“smears” spectral energy over multiple $X(m)$
+samples, as was shown in the text’s Figure 3–8(b), which degrades the
+effectiveness of this A/D converter test method. What can we do to 
+minimize the DFT’s inherent spectral leakage as much as possible for this type of converter testing?
+
+<img src="./assets/ex0314.png" width="500" />
+
+**Solution**:
+
+I am not exactly sure. Maybe we can apply a window function
+before doing DFT?
+
+AI Suggested answer: Choose $f_o$, $f_s$, and $N$ such that $f_o N / f_s$ is an integer (coherent/synchronous sampling), so the sampled sinewave contains an exact whole number of cycles and appears perfectly periodic to the DFT — eliminating leakage entirely, rather than merely reducing it as a window would.
+
+$\square$
+
 ## 3.15
 
 Here is a real-world spectrum analysis problem. Figure P3–15(a) shows 902
@@ -942,12 +969,233 @@ Here's what makes your reading tempting. The sequence $x_2(n) = \cos(\pi n/4)$ i
 * (A, correct): the $f_s/4$ signal sampled at rate $2f_s$, or
 * (B, yours): an $f_s/8$ (half-freq) signal sampled at rate $f_s$.
 
-The arithmetic can't distinguish them — only the physical setup can. And the setup is fixed: we manipulated the spectrum of one specific signal, the original $x(t)$. Part (b) literally asks how $x_2$ relates to that $x(t)$. Interpretation B invents a different analog signal that was never in the problem; interpretation A keeps $x(t)$ and explains $x_2$ as its interpolation — which is why $x_1(n) = x_2(2n)$ falls out (the original samples survive at the even indices, untouched).
+The arithmetic can't distinguish them — only the physical setup can. And 
+the setup is fixed: we manipulated the spectrum of one specific signal, 
+the original $x(t)$. Part (b) literally asks how $x_2$ relates to that
+$x(t)$. Interpretation B invents a different analog signal that was never 
+in the problem; interpretation A keeps $x(t)$ and explains $x_2$ as its 
+interpolation — which is why $x_1(n) = x_2(2n)$ falls out (the original 
+samples survive at the even indices, untouched).
 
-One-line test you can keep: zero-stuffing in frequency adds no information, so it can only interpolate existing data (more samples, same span, higher rate) — it can never extend it (more span at the same rate), because extending would require data you never collected.
+One-line test you can keep: zero-stuffing in frequency adds no 
+information, so it can only interpolate existing data (more samples, same 
+span, higher rate) — it can never extend it (more span at the same rate), 
+because extending would require data you never collected.
 
-So the corrected statement: frequency-domain zero-stuffing can interpolate (new sample values, no new information) but can't extend the observation window (which would require new information the original samples don't contain). Your "$2f_s$ collects new data" is true for the values, but those values were already implied — which is exactly why the DFT could manufacture them for free.
+So the corrected statement: frequency-domain zero-stuffing can 
+interpolate (new sample values, no new information) but can't extend the 
+observation window (which would require new information the original 
+samples don't contain). Your "$2f_s$ collects new data" is true for the 
+values, but those values were already implied — which is exactly why the 
+DFT could manufacture them for free.
 
-This is also the mirror image of 3.18/3.19: there, zero-padding in time interpolates the spectrum (more bins, no new resolution); here, zero-stuffing in frequency interpolates the time signal (more samples, no new information). Same principle, axes swapped.
+This is also the mirror image of 3.18/3.19: there, zero-padding in time 
+interpolates the spectrum (more bins, no new resolution); here, 
+zero-stuffing in frequency interpolates the time signal (more samples, no 
+new information). Same principle, axes swapped.
 
 $\square$
+
+## 3.22
+
+There is a useful spectrum analysis process, discussed in Chapter 13, 
+that uses the results of an $N$-point DFT,
+$X(m)$, and requires us to compute
+
+$$ 
+S= P \cdot X(0) - Q \cdot X(N-1) - Q \cdot X(1)
+$$
+
+where $P$ and $Q$ are scalar constants. Value $S$ is the sum of three 
+complex numbers. If we represent the three DFT samples in rectangular 
+form, we can write
+
+$$ 
+S= P \cdot [a + jb] - Q \cdot [c + jd] - Q \cdot [e + jg].
+$$
+
+In the general case, the above expression for $S$ requires six real 
+multiply operations. If the DFT’s $x(n)$ input sequence is real-only,
+what is the equation for $S$
+that requires fewer than six real multiplies? Show your work.
+
+**Solution**:
+
+From 3.2 DFT symmetry, we know for a real signal
+$𝑋(𝑁−𝑚) = X^*(m)$, then
+
+$$
+\begin{align*}
+X(N-1) + X(1) &= X^*(1) + X(1) \\
+&= 2 \Re{X(1)} \\
+&= 2c
+\end{align*} 
+$$
+
+Also
+
+$$ 
+X(0) = \sum_{n = 0}^{N-1} x(n) e^{-j2πn0/N}
+= \sum_{n = 0}^{N-1} x(n) = a
+$$
+
+So
+
+$$ 
+S = a P - 2 cQ
+$$
+
+We only need 2 real multiplies.
+
+$\square$
+
+## 3.23
+
+For an $N$-length time-domain sequence $x(n)$,
+why is the DFT useful in plotting
+$x(n)$’s discrete-time Fourier transform (DTFT),
+which is a function of the continuous frequency variable $ω$?
+
+**Solution**:
+
+We perform the DTFT on $N$ points, the equation of DTFT is as follows:
+
+* DTFT
+
+$$ 
+X_{\text{DTFT}}(\omega) =
+\sum_{n = 0}^{N-1} x[n] e^{-j n \omega}
+$$
+
+We also has the DFT equation as follows:
+
+* DFT
+
+$$ 
+X(m) = \sum_{n = 0}^{N-1} x[n] e^{-j 2 \pi mn/N}
+$$
+
+Then we can see
+
+$$ 
+X(m) = X_{\text{DTFT}}(\frac{2 \pi m}{N})
+$$
+
+So $X(m)$ is an approximation or sampling of $X_{\text{DTFT}}$.
+
+We can make the approximation better by padding $0$ to the
+original $N$ data points.
+
+Better anwser by Sonnet 4.6
+
+So $X(m)$ is an exact sampling of $X_{\text{DTFT}}$ at $N$ equally-spaced frequencies $\omega = 2\pi m/N$.
+
+We can get a denser picture of the DTFT by zero-padding the original $N$ 
+data points, which adds more sample points without changing the 
+underlying DTFT.
+
+$\square$
+
+## 3.24
+
+In Chapter 1 we mentioned a special time-domain sequence called a unit 
+impulse. We’ll be using that sequence, the $x_{\text{imp}}(n)$ shown in 
+Figure P3–24, in later
+chapters to test digital filters. As such, it’s useful to know the 
+spectral content of this unit impulse.
+
+<img src="./assets/ex0324.png" width="500" />
+
+(a) Draw the continuous $x_{\text{imp}}(n)$
+discrete-time Fourier transform (DTFT),
+over the frequency range of $0 ≤ ω ≤ 2π$, of the
+$x_{\text{imp}}(n)$ unit impulse sequence.
+
+**Solution**:
+
+We have
+
+$$
+\begin{align*}
+X_{\text{DTFT}}(\omega) &=
+\sum_{n = 0}^{N-1} x[n] e^{-j n \omega} \\
+&= x[0] e^{-j 0 \omega} \\
+&= x[0] \\
+&= 1
+\end{align*} 
+$$
+
+So the result is a constant $1$.
+
+$\square$
+
+(b) With your $x_{\text{imp}}(n)$ solution in mind, assume a person is 
+listening to an AM (amplitude modulation) radio station centered at
+640 kHz in the North American AM Broadcast band and a neighbor is 
+listening to an international shortwave AM signal on a radio receiver 
+tuned to 5.2 MHz.
+
+Can you explain why, when lightning strikes, both people hear the static
+noise from the lightning on their radios even though the radios are tuned
+to very different center frequencies?
+
+**Solution**:
+
+We can view the lightning strikes as an unit impulse, then the
+spectral content is a constant, so all different center frequencies
+have a portion of the spectral content.
+(AI: "receive energy at their tuned frequency").
+
+$\square$
+
+## 3.25
+
+Draw a rough sketch of the magnitude of the discrete-time Fourier 
+transform (DTFT), over the frequency range of
+$-\pi \leq \omega \leq \pi$, of the $x(n)$ sequence in Figure
+P3–25.
+
+<img src="./assets/ex0325.png" width="500" />
+
+**Solution**:
+
+We have
+
+$$
+\begin{align*}
+X_{\text{DTFT}}(\omega) &=
+\sum_{n = 0}^{N-1} x[n] e^{-j n \omega} \\
+&= x[0] e^{-j 0 \omega} + x[1] e^{-j 1 \omega} \\
+&= 1 + e^{-j \omega} \\
+&= 1 + \cos (-\omega) + j \sin (-\omega) \\
+&= 1 + \cos (\omega) - j \sin (\omega)
+\end{align*} 
+$$
+
+So we have
+
+$$
+\begin{align*}
+\left| X_{\text{DTFT}}(\omega) \right|^2
+&= (1+\cos (\omega))^2 + \sin^2 (\omega) \\
+&= 1 + 2 \cos (\omega) + \cos^2 (\omega) + \sin^2 (\omega) \\
+&= 2 + 2 \cos (\omega)
+\end{align*} 
+$$
+
+From AI:
+
+$1+\cos\omega = 2\cos^2(\omega/2)$
+
+The python code to plot is
+
+```python
+omega = np.arange(-np.pi, np.pi, 0.01)
+X_mag = np.sqrt(2 + 2 * np.cos(omega))
+plt.plot(omega, X_mag)
+```
+
+<img src="./assets/ex0325a.png" width="500" />
+
+$\square$
+
