@@ -96,6 +96,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#313">3.13</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#314">3.14</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#315">3.15</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#316">3.16</a>
@@ -109,6 +111,14 @@
     <li class="toctree-l2"><a class="reference internal" href="#320">3.20</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#321">3.21</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#322">3.22</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#323">3.23</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#324">3.24</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#325">3.25</a>
     </li>
     </ul>
                 </li>
@@ -666,6 +676,28 @@ original frequency-domain <script type="math/tex">X(m)</script> sequence is conj
 <p>
 <script type="math/tex">\square</script>
 </p>
+<h2 id="314">3.14</h2>
+<p>One useful way to test the performance of commercial analog-to-digital
+(A/D) converters is to digitize an <script type="math/tex">f_o</script> Hz analog sinewave, apply the 
+<script type="math/tex">N</script>-sample <script type="math/tex">x(n)</script> sequence to a DFT, and examine the DFT’s <script type="math/tex">X(m)</script> 
+results. The process is
+depicted in Figure P3–14. An ideal (A/D) converter will produce
+<script type="math/tex">X(m)</script> results showing spectral energy at <script type="math/tex">f_o</script> Hz and no spectral 
+energy at any other frequency. As such, nonzero spectral energy in
+<script type="math/tex">X(m)</script> at frequencies other than <script type="math/tex">f_o</script> Hz indicates real-world A/D 
+converter performance. However, the DFT’s inherent property of leakage 
+“smears” spectral energy over multiple <script type="math/tex">X(m)</script>
+samples, as was shown in the text’s Figure 3–8(b), which degrades the
+effectiveness of this A/D converter test method. What can we do to 
+minimize the DFT’s inherent spectral leakage as much as possible for this type of converter testing?</p>
+<p><img src="./assets/ex0314.png" width="500" /></p>
+<p><strong>Solution</strong>:</p>
+<p>I am not exactly sure. Maybe we can apply a window function
+before doing DFT?</p>
+<p>AI Suggested answer: Choose <script type="math/tex">f_o</script>, <script type="math/tex">f_s</script>, and <script type="math/tex">N</script> such that <script type="math/tex">f_o N / f_s</script> is an integer (coherent/synchronous sampling), so the sampled sinewave contains an exact whole number of cycles and appears perfectly periodic to the DFT — eliminating leakage entirely, rather than merely reducing it as a window would.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
 <h2 id="315">3.15</h2>
 <p>Here is a real-world spectrum analysis problem. Figure P3–15(a) shows 902
 samples of an <script type="math/tex">x(n)</script> time sequence. (For clarity, we do not show the <script type="math/tex">x(n)</script> sam-
@@ -972,10 +1004,207 @@ rate, same analog <script type="math/tex">x(t)</script>. That's interpolation.</
 <li>(A, correct): the <script type="math/tex">f_s/4</script> signal sampled at rate <script type="math/tex">2f_s</script>, or</li>
 <li>(B, yours): an <script type="math/tex">f_s/8</script> (half-freq) signal sampled at rate <script type="math/tex">f_s</script>.</li>
 </ul>
-<p>The arithmetic can't distinguish them — only the physical setup can. And the setup is fixed: we manipulated the spectrum of one specific signal, the original <script type="math/tex">x(t)</script>. Part (b) literally asks how <script type="math/tex">x_2</script> relates to that <script type="math/tex">x(t)</script>. Interpretation B invents a different analog signal that was never in the problem; interpretation A keeps <script type="math/tex">x(t)</script> and explains <script type="math/tex">x_2</script> as its interpolation — which is why <script type="math/tex">x_1(n) = x_2(2n)</script> falls out (the original samples survive at the even indices, untouched).</p>
-<p>One-line test you can keep: zero-stuffing in frequency adds no information, so it can only interpolate existing data (more samples, same span, higher rate) — it can never extend it (more span at the same rate), because extending would require data you never collected.</p>
-<p>So the corrected statement: frequency-domain zero-stuffing can interpolate (new sample values, no new information) but can't extend the observation window (which would require new information the original samples don't contain). Your "<script type="math/tex">2f_s</script> collects new data" is true for the values, but those values were already implied — which is exactly why the DFT could manufacture them for free.</p>
-<p>This is also the mirror image of 3.18/3.19: there, zero-padding in time interpolates the spectrum (more bins, no new resolution); here, zero-stuffing in frequency interpolates the time signal (more samples, no new information). Same principle, axes swapped.</p>
+<p>The arithmetic can't distinguish them — only the physical setup can. And 
+the setup is fixed: we manipulated the spectrum of one specific signal, 
+the original <script type="math/tex">x(t)</script>. Part (b) literally asks how <script type="math/tex">x_2</script> relates to that
+<script type="math/tex">x(t)</script>. Interpretation B invents a different analog signal that was never 
+in the problem; interpretation A keeps <script type="math/tex">x(t)</script> and explains <script type="math/tex">x_2</script> as its 
+interpolation — which is why <script type="math/tex">x_1(n) = x_2(2n)</script> falls out (the original 
+samples survive at the even indices, untouched).</p>
+<p>One-line test you can keep: zero-stuffing in frequency adds no 
+information, so it can only interpolate existing data (more samples, same 
+span, higher rate) — it can never extend it (more span at the same rate), 
+because extending would require data you never collected.</p>
+<p>So the corrected statement: frequency-domain zero-stuffing can 
+interpolate (new sample values, no new information) but can't extend the 
+observation window (which would require new information the original 
+samples don't contain). Your "<script type="math/tex">2f_s</script> collects new data" is true for the 
+values, but those values were already implied — which is exactly why the 
+DFT could manufacture them for free.</p>
+<p>This is also the mirror image of 3.18/3.19: there, zero-padding in time 
+interpolates the spectrum (more bins, no new resolution); here, 
+zero-stuffing in frequency interpolates the time signal (more samples, no 
+new information). Same principle, axes swapped.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="322">3.22</h2>
+<p>There is a useful spectrum analysis process, discussed in Chapter 13, 
+that uses the results of an <script type="math/tex">N</script>-point DFT,
+<script type="math/tex">X(m)</script>, and requires us to compute</p>
+<p>
+<script type="math/tex; mode=display"> 
+S= P \cdot X(0) - Q \cdot X(N-1) - Q \cdot X(1)
+</script>
+</p>
+<p>where <script type="math/tex">P</script> and <script type="math/tex">Q</script> are scalar constants. Value <script type="math/tex">S</script> is the sum of three 
+complex numbers. If we represent the three DFT samples in rectangular 
+form, we can write</p>
+<p>
+<script type="math/tex; mode=display"> 
+S= P \cdot [a + jb] - Q \cdot [c + jd] - Q \cdot [e + jg].
+</script>
+</p>
+<p>In the general case, the above expression for <script type="math/tex">S</script> requires six real 
+multiply operations. If the DFT’s <script type="math/tex">x(n)</script> input sequence is real-only,
+what is the equation for <script type="math/tex">S</script>
+that requires fewer than six real multiplies? Show your work.</p>
+<p><strong>Solution</strong>:</p>
+<p>From 3.2 DFT symmetry, we know for a real signal
+<script type="math/tex">𝑋(𝑁−𝑚) = X^*(m)</script>, then</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{align*}
+X(N-1) + X(1) &= X^*(1) + X(1) \\
+&= 2 \Re{X(1)} \\
+&= 2c
+\end{align*} 
+</script>
+</p>
+<p>Also</p>
+<p>
+<script type="math/tex; mode=display"> 
+X(0) = \sum_{n = 0}^{N-1} x(n) e^{-j2πn0/N}
+= \sum_{n = 0}^{N-1} x(n) = a
+</script>
+</p>
+<p>So</p>
+<p>
+<script type="math/tex; mode=display"> 
+S = a P - 2 cQ
+</script>
+</p>
+<p>We only need 2 real multiplies.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="323">3.23</h2>
+<p>For an <script type="math/tex">N</script>-length time-domain sequence <script type="math/tex">x(n)</script>,
+why is the DFT useful in plotting
+<script type="math/tex">x(n)</script>’s discrete-time Fourier transform (DTFT),
+which is a function of the continuous frequency variable <script type="math/tex">ω</script>?</p>
+<p><strong>Solution</strong>:</p>
+<p>We perform the DTFT on <script type="math/tex">N</script> points, the equation of DTFT is as follows:</p>
+<ul>
+<li>DTFT</li>
+</ul>
+<p>
+<script type="math/tex; mode=display"> 
+X_{\text{DTFT}}(\omega) =
+\sum_{n = 0}^{N-1} x[n] e^{-j n \omega}
+</script>
+</p>
+<p>We also has the DFT equation as follows:</p>
+<ul>
+<li>DFT</li>
+</ul>
+<p>
+<script type="math/tex; mode=display"> 
+X(m) = \sum_{n = 0}^{N-1} x[n] e^{-j 2 \pi mn/N}
+</script>
+</p>
+<p>Then we can see</p>
+<p>
+<script type="math/tex; mode=display"> 
+X(m) = X_{\text{DTFT}}(\frac{2 \pi m}{N})
+</script>
+</p>
+<p>So <script type="math/tex">X(m)</script> is an approximation or sampling of <script type="math/tex">X_{\text{DTFT}}</script>.</p>
+<p>We can make the approximation better by padding <script type="math/tex">0</script> to the
+original <script type="math/tex">N</script> data points.</p>
+<p>Better anwser by Sonnet 4.6</p>
+<p>So <script type="math/tex">X(m)</script> is an exact sampling of <script type="math/tex">X_{\text{DTFT}}</script> at <script type="math/tex">N</script> equally-spaced frequencies <script type="math/tex">\omega = 2\pi m/N</script>.</p>
+<p>We can get a denser picture of the DTFT by zero-padding the original <script type="math/tex">N</script> 
+data points, which adds more sample points without changing the 
+underlying DTFT.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="324">3.24</h2>
+<p>In Chapter 1 we mentioned a special time-domain sequence called a unit 
+impulse. We’ll be using that sequence, the <script type="math/tex">x_{\text{imp}}(n)</script> shown in 
+Figure P3–24, in later
+chapters to test digital filters. As such, it’s useful to know the 
+spectral content of this unit impulse.</p>
+<p><img src="./assets/ex0324.png" width="500" /></p>
+<p>(a) Draw the continuous <script type="math/tex">x_{\text{imp}}(n)</script>
+discrete-time Fourier transform (DTFT),
+over the frequency range of <script type="math/tex">0 ≤ ω ≤ 2π</script>, of the
+<script type="math/tex">x_{\text{imp}}(n)</script> unit impulse sequence.</p>
+<p><strong>Solution</strong>:</p>
+<p>We have</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{align*}
+X_{\text{DTFT}}(\omega) &=
+\sum_{n = 0}^{N-1} x[n] e^{-j n \omega} \\
+&= x[0] e^{-j 0 \omega} \\
+&= x[0] \\
+&= 1
+\end{align*} 
+</script>
+</p>
+<p>So the result is a constant <script type="math/tex">1</script>.</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<p>(b) With your <script type="math/tex">x_{\text{imp}}(n)</script> solution in mind, assume a person is 
+listening to an AM (amplitude modulation) radio station centered at
+640 kHz in the North American AM Broadcast band and a neighbor is 
+listening to an international shortwave AM signal on a radio receiver 
+tuned to 5.2 MHz.</p>
+<p>Can you explain why, when lightning strikes, both people hear the static
+noise from the lightning on their radios even though the radios are tuned
+to very different center frequencies?</p>
+<p><strong>Solution</strong>:</p>
+<p>We can view the lightning strikes as an unit impulse, then the
+spectral content is a constant, so all different center frequencies
+have a portion of the spectral content.
+(AI: "receive energy at their tuned frequency").</p>
+<p>
+<script type="math/tex">\square</script>
+</p>
+<h2 id="325">3.25</h2>
+<p>Draw a rough sketch of the magnitude of the discrete-time Fourier 
+transform (DTFT), over the frequency range of
+<script type="math/tex">-\pi \leq \omega \leq \pi</script>, of the <script type="math/tex">x(n)</script> sequence in Figure
+P3–25.</p>
+<p><img src="./assets/ex0325.png" width="500" /></p>
+<p><strong>Solution</strong>:</p>
+<p>We have</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{align*}
+X_{\text{DTFT}}(\omega) &=
+\sum_{n = 0}^{N-1} x[n] e^{-j n \omega} \\
+&= x[0] e^{-j 0 \omega} + x[1] e^{-j 1 \omega} \\
+&= 1 + e^{-j \omega} \\
+&= 1 + \cos (-\omega) + j \sin (-\omega) \\
+&= 1 + \cos (\omega) - j \sin (\omega)
+\end{align*} 
+</script>
+</p>
+<p>So we have</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{align*}
+\left| X_{\text{DTFT}}(\omega) \right|^2
+&= (1+\cos (\omega))^2 + \sin^2 (\omega) \\
+&= 1 + 2 \cos (\omega) + \cos^2 (\omega) + \sin^2 (\omega) \\
+&= 2 + 2 \cos (\omega)
+\end{align*} 
+</script>
+</p>
+<p>From AI:</p>
+<p>
+<script type="math/tex">1+\cos\omega = 2\cos^2(\omega/2)</script>
+</p>
+<p>The python code to plot is</p>
+<pre><code class="language-python">omega = np.arange(-np.pi, np.pi, 0.01)
+X_mag = np.sqrt(2 + 2 * np.cos(omega))
+plt.plot(omega, X_mag)
+</code></pre>
+<p><img src="./assets/ex0325a.png" width="500" /></p>
 <p>
 <script type="math/tex">\square</script>
 </p>
